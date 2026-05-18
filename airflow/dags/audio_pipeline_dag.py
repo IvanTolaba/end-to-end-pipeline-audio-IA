@@ -1,33 +1,4 @@
-'''from airflow import DAG
-from airflow.operators.bash import BashOperator
 
-from datetime import datetime
-
-
-with DAG(
-
-    dag_id="audio_pipeline",
-
-    start_date=datetime(2025, 1, 1),
-
-    schedule=None,
-
-    catchup=False
-
-) as dag:
-
-    run_pipeline = BashOperator(
-
-        task_id="run_main_pipeline",
-
-        bash_command="""
-        cd /home/tolaba/end-to-end-pipeline-audio-IA &&
-        source .venv/bin/activate &&
-        python main.py
-        """
-    )'''
-
-#otro codigo
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 

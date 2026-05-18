@@ -1,4 +1,4 @@
-from airflow import DAG
+'''from airflow import DAG
 from airflow.operators.bash import BashOperator
 
 from datetime import datetime
@@ -25,10 +25,10 @@ with DAG(
         source .venv/bin/activate &&
         python main.py
         """
-    )
+    ) '''
 
 
-'''from airflow import DAG
+from airflow import DAG
 from airflow.operators.python import PythonOperator
 
 from datetime import datetime
@@ -102,4 +102,4 @@ with DAG(
         python_callable=save_task
     )
 
-    ingest >> mfcc >> save'''
+    ingest >> mfcc >> save
