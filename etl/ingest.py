@@ -1,24 +1,69 @@
-import os
-# las siguientes clases son audios ya fragmentados,es decir segmentados
-CLASSES = ['Asma', 'Epoc', 'Neumonia', 'Normal']
+from pathlib import Path
+from typing import List, Dict
+from config.settings import (EXTENSION_AUDIO, DISEASE)
+import logging
 
-# se pasará base_path = "..\\data\\raw"
-def ingest_data(base_path):
+logger = logging.getLogger(__name__)
+
+
+def ingest_data(base_path: str | Path) -> List[Dict]:
+    """
+    Realiza la ingesta de archivos WAV desde el dataset respiratorio.
+
+    Args:
+        base_path:Ruta base del dataset.
+
+    Returns:
+        Lista de diccionarios con metadata.
+
+    Raises:
+        FileNotFoundError: Si la ruta base no existe.
+    """
+
+    logger.info("Iniciando proceso de ingesta")
+
+    # Convertir a Path
+    base_path = Path(base_path)
+
+    # Validar que exista la carpeta base
+    if not base_path.exists():        
+        raise FileNotFoundError(
+            f"La carpeta {base_path} no existe"
+        )
+
     data = []
 
-    for label, clase in enumerate(CLASSES):
-        class_path = os.path.join(base_path, clase)
+    # Recorrer clases
+    for label, clase in enumerate(DISEASE):
 
-        for file in os.listdir(class_path):
-            if file.endswith(".wav"):
-                full_path = os.path.join(class_path, file)
+        class_path = base_path / clase
+
+        #...
+        # Validar carpeta de clase
+        if not class_path.exists():
+            logger.warning( "No existe carpeta para clase: %s", clase)
+            continue
+        
+
+        #----
+
+        logger.info( "Procesando clase: %s",clase)
+
+        # Recorrer archivos
+        for file in class_path.iterdir():
+
+            if file.suffix == EXTENSION_AUDIO:
 
                 data.append({
-                    "path": full_path,
+                    "path": str(file),
                     "label": label,
                     "class_name": clase
                 })
 
-    print(f"✅ Total audios cargados: {len(data)}")
-    return data
+    # Validar dataset vacío
+    if not data:
+        logger.warning("No se encontraron archivos WAV")
 
+    logger.info("Total audios cargados: %s",len(data))
+
+    return data
