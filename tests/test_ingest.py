@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 
-def test_ingest_data_real_dataset():
+def test_ingest_data_real_dataset(caplog):
     """
     Integration Test:
     Valida que el proceso de ingesta funcione correctamente
@@ -39,6 +39,22 @@ def test_ingest_data_real_dataset():
 
     # Verificar que el archivo exista realmente
     assert Path(registro["path"]).exists()
+
+    # -----------------------------
+    # Verificar logs (caplog)
+    # -----------------------------
+
+    assert (
+        "Iniciando proceso de ingesta"
+        in caplog.text
+    )
+
+    assert (
+        "Total audios cargados"
+        in caplog.text
+    )
+
+
 
 
 

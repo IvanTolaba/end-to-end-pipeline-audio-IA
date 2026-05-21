@@ -12,10 +12,8 @@ def ingest_data(base_path: str | Path) -> List[Dict]:
 
     Args:
         base_path:Ruta base del dataset.
-
     Returns:
         Lista de diccionarios con metadata.
-
     Raises:
         FileNotFoundError: Si la ruta base no existe.
     """
@@ -26,7 +24,7 @@ def ingest_data(base_path: str | Path) -> List[Dict]:
     base_path = Path(base_path)
 
     # Validar que exista la carpeta base
-    if not base_path.exists():        
+    if not base_path.exists() or not base_path.is_dir():        
         raise FileNotFoundError(
             f"La carpeta {base_path} no existe"
         )
@@ -44,9 +42,6 @@ def ingest_data(base_path: str | Path) -> List[Dict]:
             logger.warning( "No existe carpeta para clase: %s", clase)
             continue
         
-
-        #----
-
         logger.info( "Procesando clase: %s",clase)
 
         # Recorrer archivos

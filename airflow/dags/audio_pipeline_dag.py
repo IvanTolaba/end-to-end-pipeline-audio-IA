@@ -7,8 +7,8 @@ from datetime import datetime
 from etl.ingest import ingest_data
 from etl.mfcc_pyspark import process_mfcc
 from etl.save_parquet import save_data
-import logging
 
+import logging
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
