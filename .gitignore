@@ -29,7 +29,7 @@ data/
 # =========================
 # 🤖 Modelos (artifacts)
 # =========================
-model/artifacts/
+model
 *.h5
 *.keras
 
