@@ -12,15 +12,6 @@ from pyspark.sql.types import ArrayType, FloatType
 
 logger = logging.getLogger(__name__)
 
-
-# -----------------------------------
-# Configuración audio
-# -----------------------------------
-
-#SAMPLE_RATE = 22050
-#N_MFCC = 13
-
-
 # -----------------------------------
 # Extracción MFCC
 # -----------------------------------
