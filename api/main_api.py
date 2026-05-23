@@ -1,30 +1,38 @@
 import io
-import os
 from fastapi import FastAPI, UploadFile, File, HTTPException
 import tensorflow as tf
 import numpy as np
-import librosa  # O la librería que uses para procesar el audio individualmente
+import librosa  
 
-app = FastAPI(
-    title="Respiratory Disease Detection API",
-    description="API para clasificar enfermedades respiratorias a partir de audios de tos/respiración."
+import logging
+logger = logging.getLogger(__name__)
+
+from config.settings import (
+    API_TITLE,
+    API_DESCRIPTION,
+    MODEL_PATH,
+    EXTENSION_AUDIO,
+    SAMPLE_RATE,
+    N_MFCC,
+    MAX_TIME_STEPS,
+    DISEASE
 )
 
-# 1. CARGA DEL MODELO EN MEMORIA (Se ejecuta UNA sola vez al levantar el servidor)
-MODEL_PATH = os.path.join(os.path.dirname(__file__), "../model/respiratory_cnn_blstm.keras")
-
+app = FastAPI(
+    title=API_TITLE,
+    description=API_DESCRIPTION
+)
+# 1. CARGA DEL MODELO EN MEMORIA
 try:
-    # Si usas TensorFlow/Keras completo:
     model = tf.keras.models.load_model(MODEL_PATH)
-    # Nota Senior: Mapear las clases exactamente en el mismo orden que tu label encoder
-    CLASSES = ["Asma", "Epoc", "Neumonia", "Normal"]
+    #print(f"[SUCCESS] ¡Modelo cargado correctamente desde: {MODEL_PATH}!")
+    logger.info("Modelo cargado correctamente desde: %s",MODEL_PATH)
 except Exception as e:
-    raise RuntimeError(f"Error crítico al cargar el modelo .h5: {str(e)}")
-    
+    raise RuntimeError(f"Error crítico al cargar el modelo: {str(e)}")   
 
 #-------------
 # 2. FUNCIÓN DE PROCESAMIENTO ACÚSTICO INDIVIDUAL
-def preprocess_audio(file_bytes) -> np.ndarray:
+def preprocess_audio(file_bytes: bytes) -> np.ndarray:
     """
     Versión Senior optimizada para leer archivos de audio grandes en memoria,
     extraer MFCC y adaptarlos exactamente a (1, 13, 130, 1) en float32.
@@ -35,21 +43,21 @@ def preprocess_audio(file_bytes) -> np.ndarray:
         
         # Cargar el audio (Ajusta el 'sr' al que usaste en tu entrenamiento, ej: 22050 o 16000)
         # Usamos sr=None para mantener el sample rate nativo del archivo
-        audio, sr = librosa.load(audio_buffer, sr=None)
+        audio, sr = librosa.load(audio_buffer, sr=SAMPLE_RATE)
         
         # 2. Extraer exactamente 13 coeficientes MFCC
-        mfcc = librosa.feature.mfcc(y=audio, sr=sr, n_mfcc=13)
+        mfcc = librosa.feature.mfcc(y=audio, sr=sr, n_mfcc=N_MFCC)
         
         # 3. Forzar el eje del tiempo a que sea exactamente 130 (Padding / Truncate)
-        max_time_steps = 130
+        #max_time_steps = 130
         
-        if mfcc.shape[1] < max_time_steps:
+        if mfcc.shape[1] < MAX_TIME_STEPS:
             # Si es más corto, rellenamos con ceros
-            pad_width = max_time_steps - mfcc.shape[1]
+            pad_width = MAX_TIME_STEPS - mfcc.shape[1]
             mfcc_fixed = np.pad(mfcc, pad_width=((0, 0), (0, pad_width)), mode='constant')
         else:
             # Si es más largo (como tu audio de 10MB), recortamos los primeros 130 pasos de tiempo
-            mfcc_fixed = mfcc[:, :max_time_steps]
+            mfcc_fixed = mfcc[:, :MAX_TIME_STEPS]
             
         # 4. Convertir explícitamente a float32 (crucial para evitar errores en TensorFlow)
         mfcc_fixed = mfcc_fixed.astype(np.float32)
@@ -62,16 +70,17 @@ def preprocess_audio(file_bytes) -> np.ndarray:
 
     except Exception as e:
         # Esto imprimirá el error real en tu consola de Uvicorn para que puedas leerlo
-        print(f"❌ [ERROR INTERNO PREPROCESAMIENTO]: {str(e)}")
-        raise e
+        logger.exception("Error interno en preprocess_audio")
+        raise 
 
 
 # 3. ENDPOINT PARA RECIBIR EL AUDIO
 @app.post("/predict", tags=["ML Inference"])
 async def predict_disease(file: UploadFile = File(...)):
-    # Validar defensivamente que sea un archivo de audio
-    if not file.filename.endswith(('.wav', '.mp3')):
-        raise HTTPException(status_code=400, detail="Formato de archivo no soportado. Debe ser WAV o MP3.")
+    # Validar defensivamente que sea un archivo de audio    
+    #if not file.filename.endswith((EXTENSION_AUDIO)):
+    if not file.filename.lower().endswith(EXTENSION_AUDIO):    
+        raise HTTPException(status_code=400, detail="Formato de archivo no soportado. Debe ser WAV.")
     
     try:
         # Leer los bytes del archivo que subió el usuario
@@ -88,7 +97,7 @@ async def predict_disease(file: UploadFile = File(...)):
         confidence = float(predictions[0][predicted_class_idx])
         
         # Mapear al nombre de la enfermedad
-        result_disease = CLASSES[predicted_class_idx]
+        result_disease = DISEASE[predicted_class_idx]
         
         return {
             "status": "success",
@@ -98,6 +107,5 @@ async def predict_disease(file: UploadFile = File(...)):
         }
         
     except Exception as e:
-        # Registrar el error real en tus logs para hacer debug en producción
-        # logger.error("Fallo en inferencia: %s", str(e))
+        # Registrar el error real en tus logs para hacer debug en producción        
         raise HTTPException(status_code=500, detail=f"Error interno procesando el audio: {str(e)}")
