@@ -1,3 +1,29 @@
+# Inicializa FastAPI y levanta Rutas.
+
+import logging
+from fastapi import FastAPI
+from config.settings import API_TITLE, API_DESCRIPTION
+from api.routes import inference
+from api.services.predictor import predictor_service
+
+# Inicializar Logs globales antes que nada
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+
+app = FastAPI(title=API_TITLE,description=API_DESCRIPTION)
+
+# Cargar el modelo de IA al iniciar la aplicación (Uso del ciclo de vida de FastAPI)
+@app.on_event("startup")
+def startup_event():
+    predictor_service.load_model()
+
+# Incluir las rutas modulares
+app.include_router(inference.router)
+
+
+'''
 import io
 from fastapi import FastAPI, UploadFile, File, HTTPException
 import tensorflow as tf
@@ -5,6 +31,10 @@ import numpy as np
 import librosa  
 
 import logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 from config.settings import (
@@ -34,7 +64,7 @@ except Exception as e:
 # 2. FUNCIÓN DE PROCESAMIENTO ACÚSTICO INDIVIDUAL
 def preprocess_audio(file_bytes: bytes) -> np.ndarray:
     """
-    Versión Senior optimizada para leer archivos de audio grandes en memoria,
+    Leer archivos de audio grandes en memoria,
     extraer MFCC y adaptarlos exactamente a (1, 13, 130, 1) en float32.
     """
     try:
@@ -85,6 +115,11 @@ async def predict_disease(file: UploadFile = File(...)):
     try:
         # Leer los bytes del archivo que subió el usuario
         audio_content = await file.read()
+
+        # Validar archivo vacío
+        if not audio_content:
+            logger.warning("Archivo vacío recibido: %s",file.filename)
+            raise HTTPException(status_code=400,detail="El archivo está vacío.")
         
         # Preprocesar
         features = preprocess_audio(audio_content)
@@ -98,14 +133,24 @@ async def predict_disease(file: UploadFile = File(...)):
         
         # Mapear al nombre de la enfermedad
         result_disease = DISEASE[predicted_class_idx]
+
+        # Logging de inferencia
+        logger.info(
+            "Predicción realizada | archivo=%s | clase=%s | confianza=%.2f",
+            file.filename,
+            result_disease,
+            confidence * 100
+        )
         
         return {
             "status": "success",
             "filename": file.filename,
             "prediction": result_disease,
-            "confidence": f"{confidence * 100:.2f}%"
+            "confidence": f"{confidence * 100:.2f}%"                        
         }
         
     except Exception as e:
         # Registrar el error real en tus logs para hacer debug en producción        
         raise HTTPException(status_code=500, detail=f"Error interno procesando el audio: {str(e)}")
+
+'''
