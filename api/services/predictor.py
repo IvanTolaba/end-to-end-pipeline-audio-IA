@@ -11,8 +11,8 @@ class RespiratoryPredictor:
     def __init__(self):
         self.model = None
 
-    def load_model(self):
-        """Carga el modelo en memoria de forma perezosa/controlada."""
+    # Carga el modelo en memoria de forma perezosa/controlada.
+    def load_model(self):        
         try:
             self.model = tf.keras.models.load_model(MODEL_PATH)
             logger.info("Modelo cargado correctamente desde: %s", MODEL_PATH)
@@ -20,8 +20,8 @@ class RespiratoryPredictor:
             logger.critical("Error crítico al cargar el modelo: %s", str(e))
             raise RuntimeError(f"Error crítico al cargar el modelo: {str(e)}")
 
-    def predict(self, features: np.ndarray) -> tuple[str, float]:
-        """Ejecuta la inferencia en la red neuronal."""
+    # Predice, ejecuta la inferencia en la red neuronal.
+    def predict(self, features: np.ndarray) -> tuple[str, float]:        
         if self.model is None:
             raise RuntimeError("El modelo no ha sido cargado en memoria.")
             
