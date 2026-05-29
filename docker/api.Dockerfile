@@ -33,7 +33,8 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # estas rutas se mantienen igual:
 COPY api/ ./api
 COPY config/ ./config
-COPY model/ ./model
+#COPY model/ ./model
+COPY ml/artifacts/ ./ml/artifacts/
 
 # ==========================================
 # 5. CONFIGURACIÓN DE EJECUCIÓN
