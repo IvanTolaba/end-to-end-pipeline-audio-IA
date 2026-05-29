@@ -43,3 +43,6 @@ async def predict_disease(file: UploadFile = File(...)):
         raise http_ex
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error interno procesando el audio: {str(e)}")
+    
+
+    
