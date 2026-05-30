@@ -1,4 +1,4 @@
-# Capa de Machine Learning (Carga el modelo y ejecuta model.predict).
+# Machine Learning Layer (Load the model and run model.predict).
 
 import logging
 import tensorflow as tf
@@ -11,19 +11,19 @@ class RespiratoryPredictor:
     def __init__(self):
         self.model = None
 
-    # Carga el modelo en memoria de forma perezosa/controlada.
+    # Load the model into memory in a lazy/controlled manner.
     def load_model(self):        
         try:
             self.model = tf.keras.models.load_model(MODEL_PATH)
-            logger.info("Modelo cargado correctamente desde: %s", MODEL_PATH)
+            logger.info("Model successfully loaded from: %s", MODEL_PATH)
         except Exception as e:
-            logger.critical("Error crítico al cargar el modelo: %s", str(e))
-            raise RuntimeError(f"Error crítico al cargar el modelo: {str(e)}")
+            logger.critical("Critical error loading model: %s", str(e))
+            raise RuntimeError(f"Critical error loading model: {str(e)}")
 
-    # Predice, ejecuta la inferencia en la red neuronal.
+    # Predict, execute inference in the neural network.
     def predict(self, features: np.ndarray) -> tuple[str, float]:        
         if self.model is None:
-            raise RuntimeError("El modelo no ha sido cargado en memoria.")
+            raise RuntimeError("The model has not been loaded into memory.")
             
         predictions = self.model.predict(features)
         predicted_class_idx = np.argmax(predictions[0])
@@ -32,5 +32,5 @@ class RespiratoryPredictor:
         
         return result_disease, confidence
 
-# Instancia única (Singleton) para usar en las rutas
+# Single instance (Singleton) to use in routes
 predictor_service = RespiratoryPredictor()

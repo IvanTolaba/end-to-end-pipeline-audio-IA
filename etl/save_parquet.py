@@ -8,26 +8,26 @@ logger = logging.getLogger(__name__)
 
 def save_data(df: DataFrame,output_path: str | Path) -> None:
     """
-    Guarda un DataFrame Spark en formato parquet.
+    Save a Spark DataFrame in parquet format.
 
     Args:
-        df:DataFrame de Spark a guardar.
-        output_path: dónde se guardará parquet.
+        df: Spark DataFrame to save.
+        output_path: where the parquet flooring will be stored.
 
     Raises:
-        ValueError:Si el DataFrame está vacío.
+        ValueError: If the DataFrame is empty.
 
-        Exception:Si ocurre un error durante el guardado.
+        Exception: If an error occurs during saving.
     """
 
-    logger.info("Iniciando guardado parquet en: %s",output_path)
+    logger.info("Starting to save parquet flooring in: %s",output_path)
 
     output_path = Path(output_path)
 
-    # Validar DataFrame vacío
+    # Validate empty DataFrame
     if df.rdd.isEmpty():
-        logger.warning("El DataFrame está vacío")
-        raise ValueError("No se puede guardar un DataFrame vacío")
+        logger.warning("The DataFrame is empty")
+        raise ValueError("You cannot save an empty DataFrame")
 
     try:
         (
@@ -37,11 +37,11 @@ def save_data(df: DataFrame,output_path: str | Path) -> None:
         )
 
         
-        logger.info("Parquet guardado en %s",output_path)
-        logger.info("Guardado completado correctamente")
+        logger.info("Parquet stored in %s",output_path)
+        logger.info("Saved successfully")
 
     except Exception as error:
-        logger.exception("Error al guardar parquet: %s",error)
+        logger.exception("Error saving parquet: %s",error)
         raise
 
 

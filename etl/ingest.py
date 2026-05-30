@@ -8,43 +8,42 @@ logger = logging.getLogger(__name__)
 
 def ingest_data(base_path: str | Path) -> List[Dict]:
     """
-    Realiza la ingesta de archivos WAV desde el dataset respiratorio.
+    It performs WAV file ingestion from the respiratory dataset.
 
     Args:
-        base_path:Ruta base del dataset.
+        base_path:Base path of the dataset.
     Returns:
-        Lista de diccionarios con metadata.
+        List of dictionaries with metadata.
     Raises:
-        FileNotFoundError: Si la ruta base no existe.
+        FileNotFoundError: If the base path does not exist.
     """
 
-    logger.info("Iniciando proceso de ingesta")
+    logger.info("Initiating the ingestion process")
 
-    # Convertir a Path
+    # Convert to Path
     base_path = Path(base_path)
 
-    # Validar que exista la carpeta base
+    # Verify that the base folder exists
     if not base_path.exists() or not base_path.is_dir():        
         raise FileNotFoundError(
-            f"La carpeta {base_path} no existe"
+            f"The folder {base_path} does not exist"
         )
 
     data = []
 
-    # Recorrer clases
+    # Browse classes
     for label, clase in enumerate(DISEASE):
 
         class_path = base_path / clase
 
-        #...
-        # Validar carpeta de clase
+        # Validate class folder
         if not class_path.exists():
-            logger.warning( "No existe carpeta para clase: %s", clase)
+            logger.warning( "There is no folder for class: %s", clase)
             continue
         
-        logger.info( "Procesando clase: %s",clase)
+        logger.info( "Processing class: %s",clase)
 
-        # Recorrer archivos
+        # Browse files
         for file in class_path.iterdir():
 
             if file.suffix == EXTENSION_AUDIO:
@@ -55,10 +54,10 @@ def ingest_data(base_path: str | Path) -> List[Dict]:
                     "class_name": clase
                 })
 
-    # Validar dataset vacío
+    # Validate empty dataset
     if not data:
-        logger.warning("No se encontraron archivos WAV")
+        logger.warning("No WAV files were found")
 
-    logger.info("Total audios cargados: %s",len(data))
+    logger.info("Total audio files uploaded: %s",len(data))
 
     return data

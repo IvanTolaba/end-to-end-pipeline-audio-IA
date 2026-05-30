@@ -14,7 +14,7 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 # -------------------------
-# Funciones para Airflow
+# Airflow Functions
 # -------------------------
 
 def ingest_task(**context):

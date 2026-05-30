@@ -13,44 +13,44 @@ from pyspark.sql.types import ArrayType, FloatType
 logger = logging.getLogger(__name__)
 
 # -----------------------------------
-# Extracción MFCC
+# MFCC Extraction
 # -----------------------------------
 
 def extract_mfcc(path: str) -> List[float]:
     """
-    Extrae MFCC de un archivo de audio.
+    Extract MFCC from an audio file.
 
     Args:
-        path: Ruta del archivo WAV.
+        path: WAV file path.
     Returns:
-        Lista de coeficientes MFCC flatten.
+        List of MFCC flatten coefficients.
     Raises:
         Exception:
-            Si ocurre un error durante
-            la extracción de características.
+            If an error occurs during
+            feature extraction.
     """
 
     try:
 
-        logger.info("Procesando audio: %s", path)
+        logger.info("Processing audio: %s", path)
 
         audio_path = Path(path)
 
         if not audio_path.exists():
-            raise FileNotFoundError(f"No existe el archivo: {path}")
+            raise FileNotFoundError(f"The file does not exist: {path}")
 
         # Cargar audio
         y, sr = librosa.load(path,sr=SAMPLE_RATE)
 
         # Extraer MFCC
         mfcc = librosa.feature.mfcc(y=y,sr=sr,n_mfcc=N_MFCC)
-        logger.info("MFCC extraído correctamente: %s",path)
+        logger.info("MFCC extracted correctly: %s",path)
 
-        # Spark no serializa numpy arrays
+        # Spark does not serialize numpy arrays
         return mfcc.flatten().tolist()
 
     except Exception as error:
-        logger.exception("Error procesando audio %s: %s",path,error)
+        logger.exception("Error processing audio %s: %s",path,error)
         return []
 
 
@@ -60,33 +60,33 @@ def extract_mfcc(path: str) -> List[float]:
 
 def process_mfcc(spark: SparkSession,data: List[Dict]) -> DataFrame:
     """
-    Procesa audios usando PySpark y extrae MFCC.
+    Process audio using PySpark and extract MFCC.
 
     Args:
-        spark:Sesión activa de Spark.
+        spark: Spark active session.
 
-        data: Lista de registros de audio.
+        data: List of audio recordings.
 
-    Returns: DataFrame Spark con columna MFCC.
+    Returns: Spark DataFrame with MFCC column.
     """
 
-    logger.info("Iniciando pipeline MFCC con PySpark")
+    logger.info("Starting MFCC pipeline with PySpark")
 
     if not data:
-        logger.warning("Dataset vacío recibido en process_mfcc")
+        logger.warning("Empty dataset received in process_mfcc")
 
-    # Crear DataFrame Spark
+    # Create Spark DataFrame
     df = spark.createDataFrame(data)
 
-    logger.info("DataFrame Spark creado correctamente")
+    logger.info("Spark DataFrame created successfully")
 
-    # Registrar UDF
+    # Register UDF
     mfcc_udf = udf(extract_mfcc,ArrayType(FloatType()))
-    logger.info("Aplicando extracción MFCC")
+    logger.info("Applying MFCC extraction")
 
-    # Aplicar transformación
+    # Apply transformation
     df = df.withColumn("mfcc",mfcc_udf(df["path"]))
-    logger.info("MFCC generados correctamente")
+    logger.info("MFCC generated correctly")
 
     return df
 
