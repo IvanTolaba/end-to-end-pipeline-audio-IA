@@ -13,10 +13,8 @@ def save_data(df: DataFrame,output_path: str | Path) -> None:
     Args:
         df: Spark DataFrame to save.
         output_path: where the parquet flooring will be stored.
-
     Raises:
         ValueError: If the DataFrame is empty.
-
         Exception: If an error occurs during saving.
     """
 

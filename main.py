@@ -2,6 +2,7 @@ from etl.ingest import ingest_data
 from etl.mfcc_pyspark import process_mfcc
 from etl.save_parquet import save_data
 import time
+from config.settings import DATA_RAW_DIR
 
 import logging
 logger = logging.getLogger(__name__)
@@ -15,7 +16,7 @@ from pyspark.sql import SparkSession
 def run_pipeline():
     start = time.time()
     #Ingest
-    data = ingest_data("data/raw")
+    data = ingest_data(DATA_RAW_DIR)
 
     #MFCC procesing
     spark = (

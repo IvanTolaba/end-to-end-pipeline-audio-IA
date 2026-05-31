@@ -9,8 +9,7 @@ from etl.save_parquet import save_data
 def test_save_data(tmp_path, caplog):
 
     """
-    Integration test:  Verifica que save_data guarde
-    correctamente un parquet.
+    Integration test:  Verify that save_data correctly saves a parquet.
     """
 
     # -----------------------------
@@ -59,12 +58,12 @@ def test_save_data(tmp_path, caplog):
 
     # Validar logs
     assert (
-        "Iniciando guardado parquet"
+        "Starting to save parquet flooring in"
         in caplog.text
     )
 
     assert (
-        "Guardado completado correctamente"
+        "Saved successfully"
         in caplog.text
     )
 

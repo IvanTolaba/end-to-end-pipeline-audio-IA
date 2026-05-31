@@ -64,9 +64,7 @@ def process_mfcc(spark: SparkSession,data: List[Dict]) -> DataFrame:
 
     Args:
         spark: Spark active session.
-
         data: List of audio recordings.
-
     Returns: Spark DataFrame with MFCC column.
     """
 

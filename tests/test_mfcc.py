@@ -34,8 +34,7 @@ def test_extract_mfcc_real_audio(caplog):
     )
 
     assert wav_files, (
-        "No existen archivos WAV "
-        "para testing"
+        "There are no WAV files for testing."
     )
 
     test_audio = wav_files[0]
@@ -69,12 +68,12 @@ def test_extract_mfcc_real_audio(caplog):
 
     # Validar logs
     assert (
-        "Procesando audio"
+        "Processing audio"
         in caplog.text
     )
 
     assert (
-        "MFCC extraído correctamente"
+        "MFCC extracted correctly"
         in caplog.text
     )
 
@@ -110,8 +109,7 @@ def test_process_mfcc_pipeline(caplog):
     )
 
     assert wav_files, (
-        "No existen WAVs "
-        "para testing"
+        "There are no WAVs for testing"
     )
 
     sample_data = [
@@ -155,12 +153,12 @@ def test_process_mfcc_pipeline(caplog):
 
     # Validar logs
     assert (
-        "Iniciando pipeline MFCC"
+        "Starting MFCC pipeline with PySpark"
         in caplog.text
     )
 
     assert (
-        "MFCC generados correctamente"
+        "MFCC generated correctly"
         in caplog.text
     )
 

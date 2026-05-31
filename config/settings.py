@@ -1,5 +1,4 @@
 from pathlib import Path
-#import os
 # Absolute path to the project's root directory (where api/, model/, etc. are located)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -8,6 +7,9 @@ EXTENSION_AUDIO = ".wav"
 SAMPLE_RATE = 22050
 N_MFCC = 13
 MAX_TIME_STEPS = 130  # frames
+
+#Ingest
+DATA_RAW_DIR = BASE_DIR / "data" / "raw"
 
 # Dataset / Output Classes
 DISEASE = ["Asma","Epoc", "Neumonia", "Normal"]

@@ -16,7 +16,7 @@ def test_ingest_data_real_dataset(caplog):
     base_path = Path("data/raw")
 
     # Verificar que exista el dataset
-    assert base_path.exists(), ("La carpeta data/raw no existe")
+    assert base_path.exists(), ("The data/raw folder does not exist")
 
     # 2. ACT
     # Ejecutar la función real
@@ -45,12 +45,12 @@ def test_ingest_data_real_dataset(caplog):
     # -----------------------------
 
     assert (
-        "Iniciando proceso de ingesta"
+        "Initiating the ingestion process"
         in caplog.text
     )
 
     assert (
-        "Total audios cargados"
+        "Total audio files uploaded"
         in caplog.text
     )
 
