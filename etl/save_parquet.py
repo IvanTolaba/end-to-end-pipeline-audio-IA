@@ -1,47 +1,36 @@
-
+import logging
 from pathlib import Path
 from pyspark.sql import DataFrame
 
-import logging
 logger = logging.getLogger(__name__)
 
 
-def save_data(df: DataFrame,output_path: str | Path) -> None:
+def save_data(df: DataFrame, output_path: str | Path) -> None:
     """
-    Save a Spark DataFrame in parquet format.
+    Save structured features Spark DataFrame in highly optimized Parquet layout.
 
     Args:
-        df: Spark DataFrame to save.
-        output_path: where the parquet flooring will be stored.
+        df: Processed acoustic Spark DataFrame.
+        output_path: Target directory of the processed Data Lake layer.
     Raises:
-        ValueError: If the DataFrame is empty.
-        Exception: If an error occurs during saving.
+        ValueError: If the DataFrame contains no internal data.
     """
-
-    logger.info("Starting to save parquet flooring in: %s",output_path)
-
+    logger.info("Initiating persistence job to Silver layer: %s", output_path)
     output_path = Path(output_path)
 
-    # Validate empty DataFrame
     if df.rdd.isEmpty():
-        logger.warning("The DataFrame is empty")
-        raise ValueError("You cannot save an empty DataFrame")
+        logger.error("Aborting save operation. Spark DataFrame contains no elements.")
+        raise ValueError("Cannot write an unpopulated or empty DataFrame")
 
     try:
+        # Overwrite state ensures pipeline can re-run automatically via Airflow orchestrations
         (
             df.write
             .mode("overwrite")
             .parquet(str(output_path))
         )
-
-        
-        logger.info("Parquet stored in %s",output_path)
-        logger.info("Saved successfully")
+        logger.info("Data Lake Silver table written in Parquet format at: %s", output_path)
 
     except Exception as error:
-        logger.exception("Error saving parquet: %s",error)
+        logger.exception("Critical error encountered while storing Parquet files: %s", error)
         raise
-
-
-
-
