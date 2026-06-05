@@ -39,8 +39,17 @@ def load_parquet_layer(processed_path: str | Path) -> pd.DataFrame:
 
 def balance_and_split_pipeline(df: pd.DataFrame, num_classes: int = 4):
     """
-    Balances dataset classes and performs a rigorous group split based on original 
-    file IDs to completely avoid data leakage across train, val, and test partitions.
+    It balances the dataset classes. It performs rigorous grouping 
+    based on the original file IDs ("file_id") to completely prevent data leakage 
+    between training, validation, and test partitions. 
+    Finally, it normalizes the data.
+    return:
+        X_train: Feature matrix used for training: (N_train_segments, 13, 130, 1)
+        y_train: Training label matrix: (N_train_segments, 4)
+        X_val: Feature matrix used for validation : (N_val_segments, 13, 130, 1)
+        y_val: Validation label matrix: (N_val_segments, 4)
+        X_test: Feature matrix used for the final blind testing: (N_test_segments, 13, 130, 1)
+        y_test: Test label matrix: (N_test_segments, 4)
     """
     logger.info("Executing class balancing through downsampling strategies")
     
@@ -190,21 +199,32 @@ def execute_model_training():
     """
     Orchestrates the entire end-to-end processing and model training steps.
     """
-    # 1. Load Parquet table rows from Data Lake Layer
+    # --------------------------------------------------
+    # Load Parquet table rows from Data Lake Layer
+    # --------------------------------------------------
     df_silver = load_parquet_layer(DATA_PROCESSED_DIR)
     
-    # 2. Extract balanced split tensors without file leakages
+    # --------------------------------------------------
+    # Extract balanced split tensors without file leakages
+    # --------------------------------------------------
     X_train, y_train, X_val, y_val, X_test, y_test = balance_and_split_pipeline(df_silver)
     
-    # 3. Model assembly
+    # --------------------------------------------------
+    # Model assembly
+    # --------------------------------------------------
     nn_model = build_cnn_blst_architecture()
-    
-    # 4. Optimization callback strategies
+
+    # --------------------------------------------------
+    # Optimization callback strategies
+    # --------------------------------------------------    
     early_stop = EarlyStopping(monitor='val_loss', patience=25, restore_best_weights=True, verbose=0)
     reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=10, min_lr=1e-6, verbose=0)
-    
+
+    # --------------------------------------------------
+    # Fit neural topology
+    # --------------------------------------------------   
     logger.info("Commencing network training fit procedure")
-    # 5. Fit neural topology
+
     nn_model.fit(
         X_train, y_train,
         validation_data=(X_val, y_val),

@@ -1,18 +1,26 @@
 import logging
-import librosa
+import librosa#
 from pathlib import Path
 from typing import Dict, List
 from config.settings import SAMPLE_RATE, WINDOW_TIME, OVERLAP
 
 logger = logging.getLogger(__name__)
 
-
+'''
 def segment_audio_file(
     audio_path: str, 
     disease_name: str, 
     window_sec: float = 3.0, 
     overlap: float = 0.25
 ) -> List[Dict]:
+'''
+
+def segment_audio_file(
+    audio_path: str, 
+    disease_name: str
+) -> List[Dict]:
+
+
     """
     Loads a full WAV file, checks sample rate, and slices it into segments 
     with a configured overlapping sliding window strategy.
@@ -73,3 +81,6 @@ def segment_audio_file(
     )
 
     return segments_metadata
+
+
+

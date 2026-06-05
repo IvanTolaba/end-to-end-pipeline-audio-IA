@@ -21,6 +21,15 @@ def run_pipeline_etl() -> None:
     """
     Main orchestrator function that sets up environment resources, triggers 
     the step-by-step ETL workflow, and handles lifecycle dependencies.
+    return etl: parquet, df
+            {
+                "file_id": seg["file_id"],
+                "segment_idx": seg["segment_idx"],
+                "class_name": class_name,
+                "label": label,
+                "mfcc": flattened_mfcc
+            }
+
     """
     logger.info("==================================================")
     logger.info("STARTING AUDIO DATA ENGINEERING ETL PIPELINE")
@@ -34,7 +43,8 @@ def run_pipeline_etl() -> None:
     except Exception as error:
         logger.error("Pipeline stopped during Step 1 (Ingestion Failure): %s", error)
         return
-
+    
+    # Spark
     logger.info("Initializing centralized Apache Spark Session context")
     spark = (
         SparkSession.builder
@@ -46,18 +56,22 @@ def run_pipeline_etl() -> None:
 
     try:
         # --------------------------------------------------
-        # mfcc_pyspark
+        # mfcc_pyspark -> segment
         # --------------------------------------------------
         df_spark_processed = process_mfcc(spark=spark, data=raw_metadata_list)
 
         # --------------------------------------------------
         # save_parquet
         # --------------------------------------------------
+        # "file_id" ! "segment_idx" !"class_name" ! "label" ! "mfcc"
         save_data(df=df_spark_processed, output_path=DATA_PROCESSED_DIR)
 
         logger.info("==================================================")
         logger.info("🎉 ETL PIPELINE EXECUTED SUCCESSFULLY AND TERMINATED CLEANLY")
         logger.info("==================================================")
+
+        #Training
+        #execute_model_training()
 
     except Exception as error:
         logger.exception("Pipeline execution failed unexpectedly due to runtime anomalies: %s", error)
@@ -66,51 +80,9 @@ def run_pipeline_etl() -> None:
         logger.info("Shutting down active Spark Session engine to release allocated memory")
         spark.stop()
 
-    execute_model_training()
+    #execute_model_training()
 
 
 if __name__ == "__main__":
     run_pipeline_etl()
 
-'''
-#codigo anterior
-from etl.ingest import ingest_data
-from etl.mfcc_pyspark import process_mfcc
-from etl.save_parquet import save_data
-import time
-from config.settings import DATA_RAW_DIR
-
-import logging
-logger = logging.getLogger(__name__)
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
-
-from pyspark.sql import SparkSession
-
-def run_pipeline():
-    start = time.time()
-
-    # wav -> List of dictionaries
-    data = ingest_data(DATA_RAW_DIR)
-
-    #MFCC procesing
-    spark = (
-    SparkSession.builder
-    .appName("Audio MFCC Pipeline")
-    .getOrCreate()
-    )
-    df = process_mfcc(spark, data)
-
-    #Save parquet
-    save_data(df, "data/processed")
-
-    logger.info("Pipeline completed. Records processed: %s",df.count())
-    logger.info("Total pipeline execution time: %.2f segundos",time.time() - start)
-
-
-if __name__ == "__main__":
-    run_pipeline()
-
-'''

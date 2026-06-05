@@ -16,6 +16,14 @@ def process_audio_to_segments_mfcc(path: str, class_name: str, label: int) -> Li
     """
     Worker function executed inside the cluster. Slices audio and 
     extracts raw MFCC arrays for each generated segment.
+    return:
+            {
+                "file_id": seg["file_id"],
+                "segment_idx": seg["segment_idx"],
+                "class_name": class_name,
+                "label": label,
+                "mfcc": flattened_mfcc
+            }
     """
     # 1. Slide window across full signal
     raw_segments = segment_audio_file(audio_path=path, disease_name=class_name)
@@ -52,6 +60,11 @@ def process_mfcc(spark: SparkSession, data: List[Dict]) -> DataFrame:
     Args:
         spark: Active context SparkSession.
         data: Initial ingested metadata structure.
+                {
+                    "path": str(file),
+                    "label": label,
+                    "class_name": disease
+                }
     Returns:
         Spark DataFrame with partitioned acoustic window structures.
     """
@@ -83,6 +96,7 @@ def process_mfcc(spark: SparkSession, data: List[Dict]) -> DataFrame:
     ])
 
     # Instantiate final structural DataFrame
+    # "file_id" ! "segment_idx" !"class_name" ! "label" ! "mfcc"
     df_structured = spark.createDataFrame(flat_mapped_rdd, schema=spark_schema)
     logger.info("Distributed features and temporal identifiers generated correctly")
 

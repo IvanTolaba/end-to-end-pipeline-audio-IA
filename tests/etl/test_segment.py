@@ -86,16 +86,12 @@ def test_segment_audio_file_success(mock_librosa_load, mock_exists, mock_audio_s
     signal, sr = mock_audio_signal
     mock_librosa_load.return_value = (signal, sr)
 
-    window_sec = 3.0
-    overlap = 0.25  # 25% overlapping configuration
     disease = "Epoc"
     file_name = "patient_sample_001.wav"
 
     result = segment_audio_file(
         audio_path=f"data/raw/{disease}/{file_name}",
-        disease_name=disease,
-        window_sec=window_sec,
-        overlap=overlap
+        disease_name=disease
     )
 
     # Assertions
