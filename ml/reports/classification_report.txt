@@ -1,0 +1,10 @@
+              precision    recall  f1-score   support
+
+        Asma       0.00      0.00      0.00       148
+        Epoc       1.00      0.02      0.04       102
+    Neumonia       0.00      0.00      0.00        77
+      Normal       0.24      1.00      0.38       101
+
+    accuracy                           0.24       428
+   macro avg       0.31      0.25      0.11       428
+weighted avg       0.29      0.24      0.10       428

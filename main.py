@@ -80,7 +80,7 @@ def run_pipeline_etl() -> None:
         logger.info("Shutting down active Spark Session engine to release allocated memory")
         spark.stop()
 
-    #execute_model_training()
+    
 
 
 if __name__ == "__main__":
