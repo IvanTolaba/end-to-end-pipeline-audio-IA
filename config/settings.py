@@ -59,15 +59,15 @@ MODEL_ARCHITECTURE_TYPE = 'CNN_BLSTM'
 # ------------------------------------------------------------------------------
 # 5. Serialization Artifacts Reference Paths
 # ------------------------------------------------------------------------------
-# 📂 Subfolder: models/
+# Subfolder: models/
 MODEL_SAVE_PATH = ML_MODELS_DIR / "respiratory_cnn_blstm.keras"
 MODEL_PATH = MODEL_SAVE_PATH                      # Legacy switch switch
 
-# 📂 Subfolder: cache/
+# Subfolder: cache/
 X_TEST_CACHE_PATH = ML_CACHE_DIR / "X_test.npy"
 y_TEST_CACHE_PATH = ML_CACHE_DIR / "y_test.npy"
 
-# 📂 Subfolder: history/
+# Subfolder: history/
 HISTORY_LOSS_PATH = ML_HISTORY_DIR / "history_loss.npy"
 HISTORY_VAL_LOSS_PATH = ML_HISTORY_DIR / "history_val_loss.npy"
 
