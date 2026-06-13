@@ -1,3 +1,4 @@
+
 import logging
 from pathlib import Path
 from pyspark.sql import SparkSession
@@ -70,9 +71,6 @@ def run_pipeline_etl() -> None:
         logger.info("🎉 ETL PIPELINE EXECUTED SUCCESSFULLY AND TERMINATED CLEANLY")
         logger.info("==================================================")
 
-        #Training
-        #execute_model_training()
-
     except Exception as error:
         logger.exception("Pipeline execution failed unexpectedly due to runtime anomalies: %s", error)
 
@@ -81,8 +79,9 @@ def run_pipeline_etl() -> None:
         spark.stop()
 
     
-
-
 if __name__ == "__main__":
     run_pipeline_etl()
+
+    
+
 

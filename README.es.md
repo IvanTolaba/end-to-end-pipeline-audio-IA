@@ -10,6 +10,9 @@ Este proyecto implementa una solución completa de Machine Learning y MLOps que 
 ![Pyspark](https://img.shields.io/badge/Pyspark-Preprocesamiento-sky)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Producción-green)
+![Pytest](https://img.shields.io/badge/Pytest-Implemented-green)
+![Tests](https://img.shields.io/badge/Unit%20Tests-Passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-passing-brightgreen)
 ![Docker](https://img.shields.io/badge/Docker-Listo-blue)
 ![Airflow](https://img.shields.io/badge/Airflow-Orquestado-red)
 ![Render](https://img.shields.io/badge/Despliegue-Render-purple)
@@ -18,6 +21,11 @@ Este proyecto implementa una solución completa de Machine Learning y MLOps que 
 ![Aruitectura del proyecto](./images/arq2.png)
 
 *El sistema automatiza el ciclo completo (Ciclo de vida de los datos y del modelo) implementando principios de aislamiento de entornos, entrenamiento reproducible en la nube y despliegue continuo.*
+
+---
+## 🎬 Demo
+
+![Demo API](./images/Animation.gif)
 
 ---
 
@@ -192,6 +200,11 @@ Tras procesar el audio en tiempo real extrayendo los MFCCs e inyectándolos en l
 }
 ```
 
-
+- ETL distribuido con PySpark
+- Entrenamiento CNN-BiLSTM
+- Orquestación con Apache Airflow
+- API REST de inferencia con FastAPI
+- Contenerización mediante Docker
+- Despliegue en Render
 
 

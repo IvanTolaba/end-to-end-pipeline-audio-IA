@@ -9,6 +9,10 @@ from pathlib import Path
 # ------------------------------------------------------------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# 🔹 NUEVO para airflow: Exportamos la raíz como string absoluto 
+# para entornos externos como Airflow
+PROJECT_ROOT = str(BASE_DIR)
+
 # Core Pipeline Folders
 DATA_RAW_DIR = BASE_DIR / "data" / "raw"
 DATA_PROCESSED_DIR = BASE_DIR / "data" / "processed"
@@ -100,7 +104,8 @@ INITIAL_LEARNING_RATE = 0.00001
 # ------------------------------------------------------------------------------
 # 9. Neural Network Runtime Optimization Cycles
 # ------------------------------------------------------------------------------
-TRAINING_EPOCHS = 250
+#TRAINING_EPOCHS = 250
+TRAINING_EPOCHS = 2
 BATCH_SIZE = 32
 EARLY_STOP_PATIENCE = 25
 REDUCE_LR_PATIENCE = 10
