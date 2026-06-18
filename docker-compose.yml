@@ -1,24 +1,102 @@
 version: '3.8'
 
-services:
-  # Tu base de datos para la metadata de Airflow
-  postgres:
-    image: postgres:13
-    environment:
-      - POSTGRES_USER=airflow
-      - POSTGRES_PASSWORD=airflow
-      - POSTGRES_DB=airflow
+x-common-variables: &common-variables
+  ENV_FOR_DYNACONF: development
+  PYTHONPATH: /app
 
-  # Tu entorno local de Airflow para mover el pipeline de Spark
-  airflow-webserver:
+services:
+  # ==========================================
+  # 1. ORQUESTADOR: Apache Airflow
+  # ==========================================
+  airflow:
     build:
       context: .
       dockerfile: docker/airflow.Dockerfile
-    depends_on:
-      - postgres
+    image: audio-pipeline-airflow:latest
+    container_name: airflow_orchestrator
+    restart: always
+    command: standalone
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@airflow_db:5432/airflow
+      - AIRFLOW__CORE__FERNET_KEY=FB1oqX9A6dn7H8S6UtSdfVka3F9c_2A8389_asdjK1A=
     volumes:
-      - ./dags:/opt/airflow/dags
-      - ./etl:/opt/airflow/etl
-      - ./data:/opt/airflow/data
+      # Montamos los DAGs en vivo para desarrollo
+      - ./airflow/dags:/opt/airflow/dags
+      # Mapeo del Socket de Docker para que Airflow use DockerOperator
+      - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "8080:8080"
+    depends_on:
+      airflow_db:
+        condition: service_healthy
+
+  # Base de datos local requerida por Airflow para su Metadata
+  airflow_db:
+    image: postgres:15-alpine
+    container_name: airflow_metadata_db
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ==========================================
+  # 2. PROCESAMIENTO: PySpark ETL (Template para Airflow)
+  # ==========================================
+  etl_spark:
+    build:
+      context: .
+      dockerfile: docker/etl.Dockerfile
+    image: audio-pipeline-etl:latest
+    container_name: etl_spark_processor
+    profiles: ["pipeline_tasks"] # Evita que se encienda solo al hacer 'docker compose up'
+    environment:
+      <<: *common-variables
+    volumes:
+      - ./config:/app/config
+      - ./etl:/app/etl
+      - ./data:/app/data  # Mapeo vital para leer /raw y escribir /processed
+
+  # ==========================================
+  # 3. ENTRENAMIENTO: TensorFlow / Keras (Template para Airflow)
+  # ==========================================
+  ml_training:
+    build:
+      context: .
+      dockerfile: docker/training.Dockerfile
+    image: audio-pipeline-training:latest
+    container_name: ml_tensorflow_trainer
+    profiles: ["pipeline_tasks"]
+    environment:
+      <<: *common-variables
+    volumes:
+      - ./config:/app/config
+      - ./ml:/app/ml
+      - ./data:/app/data  # Lee los parquets generados por Spark
+
+  # ==========================================
+  # 4. SERVICIO: FastAPI de Inferencia (Siempre Activo)
+  # ==========================================
+  api:
+    build:
+      context: .
+      dockerfile: docker/api.Dockerfile
+    image: audio-pipeline-api:latest
+    container_name: fastapi_inference_server
+    restart: unless-stopped
+    environment:
+      <<: *common-variables
+      PORT: 8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./config:/app/config
+      - ./api:/app/api
+      - ./ml/artifacts:/app/ml/artifacts # Carga dinámica del modelo .keras entrenado

@@ -1,0 +1,16 @@
+# Audio Processing
+librosa==0.11.0
+audioread==3.1.0
+soundfile==0.13.1
+soxr==1.1.0
+
+# Data Processing (Silver Layer / Parquet)
+pyspark==4.1.1
+py4j==0.10.9.9
+pyarrow==24.0.0
+pandas==2.3.3
+numpy==1.26.4
+
+# Utilities and Basic Infrastructure
+python-dotenv==1.2.2
+requests==2.32.3

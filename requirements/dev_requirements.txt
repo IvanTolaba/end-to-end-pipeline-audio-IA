@@ -1,0 +1,10 @@
+# Code Quality and Testing Tools
+pytest==9.0.3
+
+# Notebook Support and Interactivity in VS Code
+ipykernel==7.2.0
+ipython==9.14.1
+debugpy==1.8.21
+
+# Optional formatters you had installed
+black==24.4.2 (u otros linters si usas)

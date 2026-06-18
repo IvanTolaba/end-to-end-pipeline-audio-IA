@@ -1,20 +1,17 @@
-tensorflow
-keras
+# Core Machine Learning & Deep Learning
+tensorflow==2.20.0
+keras==3.13.2
+h5py==3.16.0
+protobuf==5.29.3
 
-numpy
-pandas
-pyarrow
+# Data Science and Preprocessing
+scikit-learn==1.7.2
+scipy==1.15.3
+pandas==2.3.3
+numpy==1.26.4
 
-scikit-learn
-scipy
+# Generation of Visual Reports (ROC Curves, Confusion Matrices)
+matplotlib==3.10.9s
 
-librosa
-soundfile
-soxr
-
-matplotlib
-
-pytest
-
-pyspark
-py4j
+# Utilities
+python-dotenv==1.2.2

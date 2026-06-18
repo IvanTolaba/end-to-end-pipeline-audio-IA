@@ -1,15 +1,18 @@
-# Servidor Web e Interfaz
+# Web Server and Asynchronous API
 fastapi==0.136.1
 uvicorn==0.47.0
-python-multipart==0.0.29
+starlette==0.47.3
+pydantic==2.13.4
+pydantic_core==2.46.4
 
-# Deep Learning (Inferencia)
+# AI Model Inference (Prediction Only)
 tensorflow==2.20.0
 keras==3.13.2
-h5py==3.16.0
-
-# Procesamiento Acústico y Matrices
-librosa==0.11.0
 numpy==1.26.4
-scipy==1.15.3
-soundfile==0.13.1
+
+# Audio Processing
+librosa==0.11.0
+
+# Utilities
+python-dotenv==1.2.2
+python-multipart==0.0.29
