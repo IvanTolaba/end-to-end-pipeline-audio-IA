@@ -1,26 +1,24 @@
-# Pipeline End-to-End de IA para la Detección Automática de Patologías Pulmonares mediante Sonidos Respiratorios
+# Pipeline End-to-End de IA y MLOps para la Diagnóstico Automático de Patologías Pulmonares mediante Sonidos Respiratorios
 
 > 🌐 **Language / Idioma:** [Read in English (Inglés)](./README.md) | Español
 
-Este proyecto implementa una solución completa de Machine Learning y MLOps que automatiza el procesamiento distribuido de sonidos respiratorios, la extracción de características acústicas (MFCC) y la inferencia mediante una arquitectura híbrida CNN-BiLSTM para la clasificación automática de Asma, EPOC, Neumonía y condiciones respiratorias normales a partir de grabaciones obtenidas con estetoscopios electrónicos.
+Este proyecto implementa una solución completa de Machine Learning y MLOps para la diagnóstico automático de patologías pulmonares a partir de sonidos respiratorios. Se desarrollaron y evaluaron cuatro arquitecturas de Deep Learning (LSTM, BiLSTM, CNN-LSTM y CNN-BiLSTM) utilizando el mismo pipeline de procesamiento distribuido basado en PySpark y extracción de características MFCC. La arquitectura CNN-BiLSTM obtuvo el mejor rendimiento y fue desplegada en producción mediante FastAPI, Docker y Render para realizar inferencias en tiempo real.
 
 ---
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
-![Pyspark](https://img.shields.io/badge/Pyspark-Preprocesamiento-sky)
+![PySpark](https://img.shields.io/badge/PySpark-Preprocessing-skyblue)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange)
-![FastAPI](https://img.shields.io/badge/FastAPI-Producción-green)
-![Pytest](https://img.shields.io/badge/Pytest-Implemented-green)
-![Tests](https://img.shields.io/badge/Unit%20Tests-Passing-brightgreen)
-![Tests](https://img.shields.io/badge/tests-passing-brightgreen)
-![Docker](https://img.shields.io/badge/Docker-Listo-blue)
-![Airflow](https://img.shields.io/badge/Airflow-Orquestado-red)
-![Render](https://img.shields.io/badge/Despliegue-Render-purple)
+![FastAPI](https://img.shields.io/badge/FastAPI-Production-green)
+![Pytest](https://img.shields.io/badge/Pytest-Passing-brightgreen)
+![Docker](https://img.shields.io/badge/Docker-Containerized-blue)
+![Airflow](https://img.shields.io/badge/Airflow-Orchestrated-red)
+![Render](https://img.shields.io/badge/Deployment-Render-purple)
 
 ## 📸 Arquitectura General
 ![Arquitectura del proyecto](./images/arq4.png)
 
-*El sistema automatiza el ciclo completo (Ciclo de vida de los datos y del modelo) implementando principios de aislamiento de entornos, entrenamiento reproducible en la nube y despliegue continuo.*
+*El sistema automatiza el ciclo de vida completo del Machine Learning, desde la ingesta de datos hasta el despliegue del modelo CCN-BiLSTM en producción, aplicando procesamiento distribuido, entrenamiento reproducible, versionado y principios de MLOps.*
 
 ---
 ## 🎬 Demo
@@ -31,7 +29,7 @@ Este proyecto implementa una solución completa de Machine Learning y MLOps que 
 
 ## 🎯 Objetivo
 
-Desarrollar una plataforma End-to-End capaz de automatizar el procesamiento de sonidos respiratorios y asistir en la detección temprana de patologías pulmonares mediante técnicas de Inteligencia Artificial y MLOps.
+Desarrollar una plataforma End-to-End que automatice el procesamiento distribuido de sonidos respiratorios, la extracción de características acústicas y el diagnóstico automático de patologías pulmonares mediante técnicas de Inteligencia Artificial y MLOps.
 
 ---
 
@@ -40,7 +38,7 @@ Desarrollar una plataforma End-to-End capaz de automatizar el procesamiento de s
 - Procesamiento distribuido de audio mediante Apache Spark.
 - Extracción automática de características MFCC.
 - Entrenamiento reproducible.
-- Arquitecturas CNN, BLSTM, CNN-LSTM y CNN-BLSTM.
+- Arquitecturas CNN, BiLSTM, CNN-LSTM y CNN-BiLSTM.
 - Pipeline completamente orquestado con Airflow.
 - API REST desarrollada con FastAPI.
 - Contenerización mediante Docker.
@@ -48,33 +46,34 @@ Desarrollar una plataforma End-to-End capaz de automatizar el procesamiento de s
 - Testing automatizado.
 
 ---
+
 ## ⚙️ Flujo del Pipeline End-to-End
 
 El sistema automatiza el ciclo completo de procesamiento de sonidos respiratorios, mapeando el flujo desde la adquisición de la señal hasta la inferencia en producción:
 
-1. **Adquisición de datos e Ingesta:** Carga de registros fonomecánicos pulmonares integrando múltiples bases de datos clínicas internacionales.
-2. **Procesamiento Distribuido:** Remuestreo (16kHz), filtrado de ruido (*Denoise*) y segmentación de señales acústicas optimizadas a gran escala mediante **PySpark**.
-3. **Ingeniería de características:** Conversión de señales en representaciones numéricas mediante la extracción de Coeficientes Cepstrales en las Frecuencias de Mel (**MFCC**).
-3. **Ingeniería de Características Avanzada:** Conversión de señales en representaciones numéricas mediante la extracción de Coeficientes Cepstrales en las Frecuencias de Mel (**MFCC**). 
-Este proceso se ejecuta bajo la siguiente secuencia matemática y de filtrado:
+1. **Adquisición de Datos e Ingesta:** Carga de registros fonomecánicos pulmonares integrando múltiples bases de datos clínicas internacionales de referencia.
+2. **Procesamiento Distribuido:** Filtrado de ruido (*Denoise*) y segmentación de señales acústicas optimizadas a gran escala mediante **PySpark**.
+3. **Ingeniería de Características Avanzada:** Conversión de señales en representaciones numéricas mediante la extracción de Coeficientes Cepstrales en las Frecuencias de Mel (**MFCC**). Este proceso se ejecuta bajo la siguiente secuencia matemática y de filtrado:
    - **Preénfasis:** Aplicación de un filtro de altas frecuencias para compensar la atenuación natural de los componentes agudos en el tracto respiratorio.
    - **Enventanado (Windowing):** Segmentación mediante ventanas de *Hamming* de 25 ms con un solapamiento (*overlap*) del 25% para garantizar la estacionariedad de la señal de audio de corta duración sin perder continuidad temporal.
-   - **Análisis de Frecuencia (FFT):** Cálculo de la Transformada Rápida de Fourier para mapear el espectro de potencia.
+   - **Análisis de Frecuencia (FFT):** Cálculo de la Transformada Rápida de Fourier para mapear el espectro de potencia de la señal.
    - **Banco de Filtros Mel:** Mapeo logarítmico mediante funciones de transferencia triangulares espaciadas en la escala Mel para imitar la percepción auditiva no lineal humana.
    - **Transformada de Coseno Discreta (DCT):** Decorrelación de los coeficientes para obtener los MFCCs finales, descartando componentes de ruido de alta variabilidad.
-4. **Almacenamiento de datos:** Persistencia de vectores de características e información estructurada utilizando formatos eficientes de nivel analítico (**Parquet** y **JSON**).
-5. **IA, entrenamiento del modelo:** Entrenamiento reproducible de una arquitectura híbrida avanzada (**CNN + BiLSTM**) utilizando **Google Colab (GPU)**, aplicando balanceo y normalización de clases y técnicas estrictas de prevención de *Data Leakage* (`GroupShuffleSplit`).
-6. **Evaluación del modelo:** Cálculo automático de Accuracy, Precision, Recall, F1-Score, Matriz de Confusión, Curvas ROC-AUC.
-7. **Registro y seguimiento de modelos:** Versionado del código fuente y artefactos mediante **Git y GitHub**. Almacenamiento del modelo final entrenado (`.keras`).
-8. **Producción y Despliegue:** Exposición de endpoints optimizados mediante **FastAPI**, aislamiento del entorno con **Docker** y despliegue productivo en la nube a través de **Render**.
-9. **Orquestación:** Automatización y monitoreo de todo el flujo de tareas (DAGs) mediante **Apache Airflow**.
+4. **Almacenamiento de Datos:** Persistencia de vectores de características e información estructurada utilizando formatos eficientes de nivel analítico (**Parquet** y **JSON**).
+5. **Entrenamiento de Modelos Candidatos:** Entrenamiento reproducible de múltiples arquitecturas avanzadas de aprendizaje profundo (**CNN, BiLSTM, CNN-LSTM y CNN-BiLSTM**) utilizando **Google Colab (GPU)**. El proceso incorporó balanceo y normalización de clases, prevención de **Data Leakage** mediante GroupShuffleSplit y técnicas de regularización como **Early Stopping**, permitiendo detener el entrenamiento cuando el desempeño sobre el conjunto de validación dejaba de mejorar, reduciendo el riesgo de overfitting.
+6. **Evaluación y Selección:** Cálculo automático de métricas comparativas (Accuracy, Precision, Recall, F1-Score, Curvas ROC-AUC y Matrices de Confusión) para la selección del modelo de mejor rendimiento global.
+7. **Registro y Seguimiento de Modelos:** Versionado del código fuente y artefactos mediante **Git y GitHub**. Almacenamiento optimizado del modelo final seleccionado (`.keras`).
+8. **Producción y Despliegue:** Exposición de endpoints optimizados para inferencia en tiempo real mediante **FastAPI**, aislamiento completo del entorno con **Docker** y despliegue continuo en la nube a través de **Render**.
+9. **Orquestación y Automatización:** Automatización integral y monitoreo de todo el flujo de tareas y dependencias (DAGs) mediante **Apache Airflow**.
+
+
 ---
 
 ## 🛡️ Características de Ingeniería y MLOps
 
-* **Calidad de Datos:** Prevención estricta de *Data Leakage* mediante particionado por archivo de origen utilizando `GroupShuffleSplit`. Aislamiento completo entre conjuntos de entrenamiento, validación y prueba.  Balanceo automático de clases para reducir sesgos en patologías subrepresentadas.
+* **Calidad de Datos:** Implementación de un pipeline robusto que incluye prevención de *Data Leakage* mediante `GroupShuffleSplit`, aislamiento completo entre los conjuntos de entrenamiento, validación y prueba, normalización de las características (features) para mejorar la estabilidad del entrenamiento y balanceo automático de clases para mitigar el desbalance presente en las patologías subrepresentadas.
 
-* **Reproducibilidad:** Configuración centralizada mediante archivos de *settings* y variables de entorno. Pipeline determinístico utilizando semillas controladas (*random seeds*). Versionado de código, configuraciones y artefactos del modelo mediante Git y GitHub.
+* **Reproducibilidad:** Configuración centralizada mediante archivos de *settings* y variables de entorno. Versionado de código, configuraciones y artefactos del modelo mediante Git y GitHub.
 
 * **Escalabilidad:** Procesamiento distribuido de señales respiratorias mediante PySpark. Arquitectura modular desacoplada para facilitar mantenimiento y extensión. Persistencia eficiente utilizando formatos analíticos Parquet y JSON.
 
@@ -138,29 +137,29 @@ Durante el desarrollo se implementaron prácticas de Ingeniería de Software y M
 
 Como parte de la investigación y desarrollo del Trabajo Final, se diseñaron, entrenaron y compararon exhaustivamente cuatro arquitecturas basadas en Deep Learning para determinar el enfoque óptimo en la clasificación de señales bioacústicas respiratorias:
 
-1. **CNN (Convolutional Neural Network):** Diseñada para actuar como extractor automático de características visuales de alto nivel a partir de las matrices de coeficientes MFCC espaciales.
+1. **CNN (Convolutional Neural Network):** Diseñada para actuar como extractor automático de características de alto nivel a partir de las matrices de coeficientes MFCC espaciales.
 2. **BLSTM (Bidirectional Long Short-Term Memory):** Enfocada puramente en el modelado de dependencias secuenciales a largo plazo, analizando el contexto temporal hacia adelante y hacia atrás.
 3. **CNN-LSTM (Híbrida Secuencial):** Una combinación donde la CNN extrae mapas de características espaciales y una capa LSTM convencional procesa su evolución temporal de forma unidireccional.
 4. **CNN-BiLSTM (Híbrida Bidireccional):** Integra bloques convolucionales robustos (`Conv2D`, `MaxPooling2D`) acoplados a capas recurrentes bidireccionales (`Bidirectional(LSTM)`), capturando tanto la morfología espectral como el contexto secuencial completo (pasado y futuro) del ciclo respiratorio.
 
-> 🚀 **Nota de Despliegue en Producción:** Tras un análisis riguroso de métricas, la arquitectura híbrida **CNN-BiLSTM** fue seleccionada para el despliegue productivo final en **Render** debido a su consistencia, capacidad superior de generalización frente a ruido acústico y el rendimiento reflejado en las curvas ROC-AUC.
+> 🚀 **Nota de Despliegue en Producción:** Tras un análisis riguroso de métricas, la arquitectura híbrida **CNN-BiLSTM** fue seleccionada para el despliegue productivo final en **Render** debido a su consistencia, capacidad superior de generalización frente a ruido acústico y el rendimiento reflejado en las métricas.
 
 ---
 
-## 📊 Experimentación y Selección del Modelo (Model Comparison)
+## 📊 Experimentación y Selección del Modelo 
 
-Para determinar la arquitectura óptima, se evaluaron de forma exhaustiva cuatro variantes de redes neuronales profundas bajo el mismo pipeline de preprocesamiento de PySpark y el mismo protocolo de entrenamiento determinístico. 
+Para determinar la arquitectura óptima, se evaluaron de forma exhaustiva cuatro variantes de redes neuronales profundas bajo el mismo pipeline de preprocesamiento de PySpark y el mismo protocolo de entrenamiento. 
 
 A fin de garantizar la fiabilidad estadística y mitigar el sobreajuste (*overfitting*), se aplicó una estrategia de división *Hold-Out* (70% train, 15% val, 15% test) combinada y *Early Stopping*.
 
-### Tabla Comparativa de Rendimiento (Performance Matrix)
+### Tabla Comparativa de Rendimiento 
 
 | Arquitectura Evaluada | Exactitud (Accuracy) | Precisión (Precision) | Sensibilidad (Recall) | Puntuación F1 (F1-Score) | ROC-AUC Macro | Estado en el Pipeline / Despliegue |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
 | **🧠 CNN-BiLSTM** | **80.23 %** | **0.80** | **0.80** | **0.79** | **0.94** | 🟢 **Seleccionado y Desplegado (Render)** |
-| **🧠 CNN-LSTM** | *78.45 %* | *0.78* | *0.77* | *0.77* | *0.92* | 🟡 Evaluado en Fase de Tesis |
-| **🧠 CNN** | *74.12 %* | *0.74* | *0.75* | *0.73* | *0.89* | 🟡 Evaluado en Fase de Tesis |
-| **🧠 BiLSTM** | *70.33 %* | *0.70* | *0.69* | *0.69* | *0.86* | 🟡 Evaluado en Fase de Tesis |
+| **🧠 CNN-LSTM** | *81 %* | *0.8* | *0.8* | *0.8* | *0.94* | 🟡 Evaluado en Fase de Tesis |
+| **🧠 CNN** | *80.23 %* | *0.8* | *0.79* | *0.79* | *0.93* | 🟡 Evaluado en Fase de Tesis |
+| **🧠 BiLSTM** | *68 %* | *0.68* | *0.68* | *0.67* | *0.88* | 🟡 Evaluado en Fase de Tesis |
 
 > 📑 **Nota de Ingeniería:** *Aunque se implementaron y evaluaron cuatro arquitecturas bajo el mismo protocolo experimental, la arquitectura CNN-BiLSTM logró el mejor rendimiento general en términos de extracción de características espaciales y alineación temporal. En consecuencia, fue seleccionada como el modelo de producción final actualmente implementado en Render.*
 
