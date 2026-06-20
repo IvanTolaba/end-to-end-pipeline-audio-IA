@@ -2,7 +2,7 @@
 
 > 🌐 **Language / Idioma:** [Read in English (Inglés)](./README.md) | Español
 
-Este proyecto implementa una solución completa de Machine Learning y MLOps para la diagnóstico automático de patologías pulmonares a partir de sonidos respiratorios. Se desarrollaron y evaluaron cuatro arquitecturas de Deep Learning (LSTM, BiLSTM, CNN-LSTM y CNN-BiLSTM) utilizando el mismo pipeline de procesamiento distribuido basado en PySpark y extracción de características MFCC. La arquitectura CNN-BiLSTM obtuvo el mejor rendimiento y fue desplegada en producción mediante FastAPI, Docker y Render para realizar inferencias en tiempo real.
+Este proyecto implementa una solución completa de Machine Learning y MLOps para la diagnóstico automático de patologías pulmonares a partir de sonidos respiratorios. Se desarrollaron y evaluaron cuatro arquitecturas de Deep Learning (LSTM, BiLSTM, CNN-LSTM y CNN-BiLSTM) utilizando el mismo pipeline de procesamiento distribuido basado en PySpark y extracción de características MFCC. La arquitectura CNN-LSTM obtuvo el mejor rendimiento y fue desplegada en producción mediante FastAPI, Docker y Render para realizar inferencias en tiempo real.
 
 ---
 
@@ -18,7 +18,7 @@ Este proyecto implementa una solución completa de Machine Learning y MLOps para
 ## 📸 Arquitectura General
 ![Arquitectura del proyecto](./images/arq4.png)
 
-*El sistema automatiza el ciclo de vida completo del Machine Learning, desde la ingesta de datos hasta el despliegue del modelo CCN-BiLSTM en producción, aplicando procesamiento distribuido, entrenamiento reproducible, versionado y principios de MLOps.*
+*El sistema automatiza el ciclo de vida completo del Machine Learning, desde la ingesta de datos hasta el despliegue del modelo CCN-LSTM en producción, aplicando procesamiento distribuido, entrenamiento reproducible, versionado y principios de MLOps.*
 
 ---
 ## 🎬 Demo
@@ -95,6 +95,7 @@ Durante el desarrollo se implementaron prácticas de Ingeniería de Software y M
 - Pipeline reproducible.
 - Orquestación con Airflow.
 - Persistencia en formatos Parquet.
+
 ---
 
 ## 🛠️ Tecnologías Utilizadas
@@ -108,8 +109,6 @@ Durante el desarrollo se implementaron prácticas de Ingeniería de Software y M
 | **🐳 MLOps y Despliegue** | Docker, Git, GitHub, Render |
 | **🧪 Testing y Calidad** | Pytest, Logging, Caplog |
 | **📊 Visualización** | Matplotlib, Seaborn |
-
-
 
 ---
 ## 📂 Estructura del Proyecto
@@ -131,6 +130,7 @@ Durante el desarrollo se implementaron prácticas de Ingeniería de Software y M
 └── README.md
 
 ```
+
 ---
 
 ## 🧠 Experimentación y Arquitecturas Evaluadas
@@ -142,7 +142,7 @@ Como parte de la investigación y desarrollo del Trabajo Final, se diseñaron, e
 3. **CNN-LSTM (Híbrida Secuencial):** Una combinación donde la CNN extrae mapas de características espaciales y una capa LSTM convencional procesa su evolución temporal de forma unidireccional.
 4. **CNN-BiLSTM (Híbrida Bidireccional):** Integra bloques convolucionales robustos (`Conv2D`, `MaxPooling2D`) acoplados a capas recurrentes bidireccionales (`Bidirectional(LSTM)`), capturando tanto la morfología espectral como el contexto secuencial completo (pasado y futuro) del ciclo respiratorio.
 
-> 🚀 **Nota de Despliegue en Producción:** Tras un análisis riguroso de métricas, la arquitectura híbrida **CNN-BiLSTM** fue seleccionada para el despliegue productivo final en **Render** debido a su consistencia, capacidad superior de generalización frente a ruido acústico y el rendimiento reflejado en las métricas.
+> 🚀 **Nota de Despliegue en Producción:** Tras un análisis riguroso de métricas, la arquitectura híbrida **CNN-LSTM** fue seleccionada para el despliegue productivo final en **Render** debido a su consistencia, capacidad superior de generalización frente a ruido acústico y el rendimiento reflejado en las métricas.
 
 ---
 
@@ -156,61 +156,87 @@ A fin de garantizar la fiabilidad estadística y mitigar el sobreajuste (*overfi
 
 | Arquitectura Evaluada | Exactitud (Accuracy) | Precisión (Precision) | Sensibilidad (Recall) | Puntuación F1 (F1-Score) | ROC-AUC Macro | Estado en el Pipeline / Despliegue |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| **🧠 CNN-BiLSTM** | **80.23 %** | **0.80** | **0.80** | **0.79** | **0.94** | 🟢 **Seleccionado y Desplegado (Render)** |
-| **🧠 CNN-LSTM** | *81 %* | *0.8* | *0.8* | *0.8* | *0.94* | 🟡 Evaluado en Fase de Tesis |
+| **🧠 CNN-LSTM** | **81 %** | **0.8** | **0.8** | **0.8** | **0.94** | 🟢 **Seleccionado y Desplegado (Render)**  |
+| **🧠 CNN-BiLSTM** | *80.23 %* | *0.80* | *0.80* | *0.79* | *0.94* | 🟡 Evaluado en Fase de Tesis |
 | **🧠 CNN** | *80.23 %* | *0.8* | *0.79* | *0.79* | *0.93* | 🟡 Evaluado en Fase de Tesis |
 | **🧠 BiLSTM** | *68 %* | *0.68* | *0.68* | *0.67* | *0.88* | 🟡 Evaluado en Fase de Tesis |
 
-> 📑 **Nota de Ingeniería:** *Aunque se implementaron y evaluaron cuatro arquitecturas bajo el mismo protocolo experimental, la arquitectura CNN-BiLSTM logró el mejor rendimiento general en términos de extracción de características espaciales y alineación temporal. En consecuencia, fue seleccionada como el modelo de producción final actualmente implementado en Render.*
+> 📑 **Nota de Ingeniería:** *Aunque se implementaron y evaluaron cuatro arquitecturas bajo el mismo protocolo experimental, la arquitectura CNN-LSTM logró el mejor rendimiento general en términos de extracción de características espaciales y alineación temporal. En consecuencia, fue seleccionada como el modelo de producción final actualmente implementado en Render.*
 
 ### Curvas Analíticas del Modelo Seleccionado
 
 <div align="left">  
   <img src="./images/r2.PNG" width="55%" alt="Curvas ROC - Modelo CNN-BiLSTM" />
-  <p><i>Curva ROC-AUC Macro del modelo en producción (CNN-BiLSTM).</i></p>
+  <p><i>Curva ROC-AUC Macro del modelo en producción (CNN-LSTM).</i></p>
 </div>
 
 <div align="left">  
   <img src="./images/mc_es.png" width="55%" alt="Matriz de confusión - Modelo CNN-BiLSTM" />
-  <p><i>Matriz de Confusión resultante del modelo en producción (CNN-BiLSTM).</i></p>
+  <p><i>Matriz de Confusión resultante del modelo en producción (CNN-LSTM).</i></p>
 </div>
 
 ---
 
-## 🗃️ Datasets Utilizados
+## 🗃️ Datasets y Adquisición de Datos
 
-El modelo fue entrenado, validado y evaluado utilizando una base consolidada construida a partir de tres repositorios clínicos internacionales utilizados en investigación biomédica, con anotaciones y validaciones realizadas por especialistas.
+El modelo fue entrenado, validado y evaluado utilizando un conjunto consolidado de tres bases de datos públicas de sonidos respiratorios ampliamente utilizadas en investigación biomédica. Las grabaciones fueron adquiridas en hospitales y centros de investigación internacionales y cuentan con anotaciones clínicas realizadas por especialistas.
 
-### ICBHI 2017 Respiratory Sound Database
+### 🌐 1. ICBHI 2017 Respiratory Sound Database
+* **Origen:** Recopilado de forma independiente por el laboratorio Lab3R de la [Universidad de Aveiro (Portugal)](https://www.ua.pt/pt/essua) (junto al Hospital Infante D. Pedro), la [Universidad Aristóteles de Tesalónica (Grecia)](https://www.auth.gr/) (Hospital Papanikolaou) y la [Universidad de Coímbra (Portugal)](https://www.uc.pt/en/).
+* **Volumen:** **920 grabaciones** de audio correspondientes a **126 pacientes**.
+* **Validación:** Etiquetas clínicas validadas por neumólogos expertos en el marco del desafío internacional ICBHI.
+* **Enlace Oficial:** [Sitio del Desafío ICBHI 2017](https://bhichallenge.med.auth.gr/)
 
-* Dataset de referencia recopilado de forma independiente por el laboratorio Lab3R de la Universidad de Aveiro (Portugal), el Hospital Infante D. Pedro (Portugal), la Universidad Aristóteles de Tesalónica (Grecia) y la Universidad de Coímbra (Portugal).
-* **920 grabaciones** provenientes de **126 pacientes**.
-* Etiquetas clínicas validadas por neumólogos expertos.
+### 🌐 2. Annotated Lung Sounds Dataset (ALSD-Net)
+* **Origen:** Desarrollado por la [Universidad de Ciencia y Tecnología de Jordania](https://www.just.edu.jo/Pages/Default.aspx) en colaboración directa con el Hospital Universitario King Abdullah.
+* **Hardware de Captura:** Grabaciones fonomecánicas pulmonares capturadas mediante un **estetoscopio electrónico 3M Littmann modelo 3200** colocado en diversas posiciones anatómicas de la pared torácica.
+* **Volumen:** **340 grabaciones** correspondientes a **112 sujetos** (35 sanos y 77 con afecciones, cubriendo edades de 21 a 90 años).
+* **Enlace Oficial:** [ALSD en Mendeley Data](https://data.mendeley.com/datasets/jwyy9np4gv/3)
 
-### Annotated Lung Sounds Dataset (ALSD)
+### 🌐 3. Pulmonary (Lungs) Sound Dataset
+* **Origen:** Recopilado y clasificado por médicos profesionales del [Hospital Fortis](https://www.fortishealthcare.com/location/fortis-flt-lt-rajan-dhall-hospital-vasant-kunj) en Nueva Delhi, India.
+* **Especificación Técnica:** Las grabaciones se realizaron mediante un estetoscopio electrónico conectado a una computadora portátil a través de un amplificador de señal. El sistema físico se configuró específicamente para **amplificar el rango de frecuencias críticas entre 70 Hz y 2000 Hz**, garantizando la captura precisa de fenómenos acústicos respiratorios.
+* **Volumen:** **676 grabaciones respiratorias** que abarcan un espectro clínico diverso.
+* **Enlace Oficial:** [Pulmonary Sound en Mendeley Data](https://data.mendeley.com/datasets/fr7zvy8j5s/1)
 
-* Desarrollado por la Universidad de Ciencia y Tecnología de Jordania en colaboración con el Hospital Universitario King Abdullah.
-* **340 grabaciones** correspondientes a **112 sujetos**.
-* Incluye registros normales y múltiples patologías respiratorias.
+---
 
-### Pulmonary (Lungs) Sound Dataset
+### 📊 Resumen Estadístico del Dataset Consolidado
 
-* Recopilado por el Hospital Fortis (Nueva Delhi, India).
-* **676 grabaciones respiratorias** clasificadas por profesionales de la salud.
-* Contiene diversas condiciones pulmonares, incluyendo asma, EPOC y neumonía.
+La integración y homologación de estas tres fuentes internacionales permitieron construir un conjunto de datos robusto de **1.936 grabaciones** y más de **238 pacientes**, permitiendo construir un conjunto de datos más diverso y representativo para el entrenamiento y evaluación de los modelos de clasificación. de **Asma, EPOC, Neumonía y condiciones normales**.
 
-### 📊 Resumen del Dataset Consolidado
+**Proceso de integración:** Todos los datasets fueron sometidos a un proceso uniforme de preprocesamiento, segmentación, normalización y balanceo antes del entrenamiento de los modelos.
 
-| Dataset                 | Grabaciones | Pacientes/Sujetos |
-| ----------------------- | ----------: | ----------------: |
-| ICBHI 2017              |         920 |               126 |
-| ALSD                    |         340 |               112 |
-| Pulmonary (Lungs) Sound |         676 |               N/D |
-| **Total**               |   **1.936** |          **238+** |
+| Dataset | Grabaciones | Pacientes/Sujetos | Método de Adquisición |
+| :--- | :---: | :---: | :--- |
+| **ICBHI 2017** | 920 | 126 | Grabaciones Multi-centro (Portugal/Grecia) |
+| **ALSD-Net** | 340 | 112 | Estetoscopio Electrónico 3M Littmann 3200 |
+| **Pulmonary (Lungs) Sound** | 676 | *N/D* | Amplificación de Frecuencias (70 Hz - 2000 Hz) |
+| **Total Consolidado** | **1.936** | **238+** | **Clasificación: Asma, EPOC, Neumonía, Normal** |
 
-La integración de estas fuentes permitió construir un conjunto de datos más diverso y representativo, mejorando la capacidad de generalización del modelo para la clasificación automática de **Asma, EPOC, Neumonía y sonidos respiratorios normales**.
+---
+### 📊 Distribución y Composición del Dataset Consolidado
 
+La integración y homologación de las tres fuentes internacionales dio como resultado un espectro de datos diverso y representativo. A continuación se detalla la distribución exacta de muestras de audio (segmentos de ciclos respiratorios) clasificados por patología e identificando el desbalanceo biológico inicial del problema:
 
+| Diagnóstico / Clase | Cantidad de Muestras (Audios) | Porcentaje (%) | Estado de Distribución |
+| :--- | :---: | :---: | :--- |
+| **🫁 EPOC** (Enfermedad Pulmonar Obstructiva Crónica) | 1.100 | 56.82 % | Mayoritaria (Predominante) |
+| **🫁 Normal** (Condición Saludable) | 526 | 27.17 % | Moderada |
+| **🫁 Neumonía** | 196 | 10.12 % | Minoritaria |
+| **🫁 Asma** | 114 | 5.89 % | Críticamente Minoritaria |
+| **Total General** | **1.936** | **100.00 %** | **Dataset Homologado** |
+
+> 🛡️ **Nota de MLOps y Calidad de Datos:** Como se observa en la matriz de distribución, el dataset presenta un marcado desbalanceo de clases (típico en entornos médicos reales donde ciertas patologías crónicas tienen mayor tasa de registro). Para mitigar este sesgo y evitar que la red neuronal CNN-BiLSTM optimizara únicamente para la clase mayoritaria (EPOC), el pipeline implementa **técnicas de balanceo automático mediante ponderación de pesos en la función de pérdida (Class Weights)** durante el entrenamiento, garantizando que el modelo penalice con igual rigurosidad los fallos en clases minoritarias como el Asma o la Neumonía.
+
+---
+| Dataset                                      |       Pacientes | Población                        | Clases principales                                                       | Sitios de auscultación            |
+| -------------------------------------------- | --------------: | -------------------------------- | ------------------------------------------------------------------------ | --------------------------------- |
+| **ICBHI 2017 Respiratory Sound Database**    |             126 | Niños, adultos y adultos mayores | Normal, Asma, EPOC, Neumonía, Bronquiolitis, Bronquiectasias, URTI, etc. | 8 puntos torácicos estandarizados |
+| **ALSD-Net (Annotated Lung Sounds Dataset)** |             112 | 21–90 años                       | Normal, Asma, EPOC, Bronquitis, Fibrosis pulmonar, Derrame pleural, etc. | 8 regiones anatómicas del tórax   |
+| **Pulmonary (Lungs) Sound Dataset**          | No especificado | Niños, adultos y adultos mayores | Normal, Asma, EPOC, Neumonía, Derrame pleural, Roncus, Sibilancias, etc. | Región pulmonar general           |
+
+> 🛡️ **Nota de MLOps y Calidad de Datos:** Los tres conjuntos de datos contienen grabaciones de sonidos respiratorios obtenidas mediante auscultación clínica. Aunque presentan diferencias en el número de pacientes, patologías y puntos de adquisición, todos fueron unificados mediante un proceso de preprocesamiento, normalización y mapeo de etiquetas para entrenar y evaluar los modelos de clasificación de forma consistente.
 ---
 ## 🧪 ¡Probalo en Producción! (Audios de Prueba)
 

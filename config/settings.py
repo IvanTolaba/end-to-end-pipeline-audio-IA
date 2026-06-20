@@ -65,7 +65,7 @@ MODEL_ARCHITECTURE_TYPE = 'CNN_BLSTM'
 # ------------------------------------------------------------------------------
 # Subfolder: models/
 MODEL_SAVE_PATH = ML_MODELS_DIR / "respiratory_cnn_blstm.keras"
-MODEL_PATH = MODEL_SAVE_PATH                      # Legacy switch switch
+MODEL_PATH = MODEL_SAVE_PATH                      
 
 # Subfolder: cache/
 X_TEST_CACHE_PATH = ML_CACHE_DIR / "X_test.npy"
