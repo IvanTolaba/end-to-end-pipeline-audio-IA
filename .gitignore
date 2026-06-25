@@ -50,8 +50,8 @@ data/**/*
 # Large generated files should not be versioned
 # ==================================================
 #ml/artifacts/models/
-#ml/artifacts/cache/
-#ml/artifacts/history/
+ml/artifacts/cache/
+ml/artifacts/history/
 
 *.h5
 #*.keras

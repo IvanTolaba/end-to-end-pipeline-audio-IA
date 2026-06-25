@@ -179,70 +179,44 @@ A fin de garantizar la fiabilidad estadística y mitigar el sobreajuste (*overfi
 
 ## 🗃️ Datasets y Adquisición de Datos
 
-El modelo fue entrenado, validado y evaluado utilizando un conjunto consolidado de tres bases de datos públicas de sonidos respiratorios ampliamente utilizadas en investigación biomédica. Las grabaciones fueron adquiridas en hospitales y centros de investigación internacionales y cuentan con anotaciones clínicas realizadas por especialistas.
+El modelo fue entrenado, validado y evaluado utilizando un conjunto consolidado de tres bases de datos públicas de sonidos respiratorios, ampliamente utilizadas en investigación biomédica. Las grabaciones fueron obtenidas en hospitales y centros de investigación internacionales y cuentan con anotaciones clínicas realizadas por especialistas. En conjunto, estos datos proporcionan una base sólida para el desarrollo de modelos de Inteligencia Artificial, al ofrecer información clínicamente confiable, técnicamente consistente y disponible para su utilización en investigación científica.
+
+
 
 ### 🌐 1. ICBHI 2017 Respiratory Sound Database
 * **Origen:** Recopilado de forma independiente por el laboratorio Lab3R de la [Universidad de Aveiro (Portugal)](https://www.ua.pt/pt/essua) (junto al Hospital Infante D. Pedro), la [Universidad Aristóteles de Tesalónica (Grecia)](https://www.auth.gr/) (Hospital Papanikolaou) y la [Universidad de Coímbra (Portugal)](https://www.uc.pt/en/).
-* **Volumen:** **920 grabaciones** de audio correspondientes a **126 pacientes**.
 * **Validación:** Etiquetas clínicas validadas por neumólogos expertos en el marco del desafío internacional ICBHI.
 * **Enlace Oficial:** [Sitio del Desafío ICBHI 2017](https://bhichallenge.med.auth.gr/)
 
 ### 🌐 2. Annotated Lung Sounds Dataset (ALSD-Net)
 * **Origen:** Desarrollado por la [Universidad de Ciencia y Tecnología de Jordania](https://www.just.edu.jo/Pages/Default.aspx) en colaboración directa con el Hospital Universitario King Abdullah.
 * **Hardware de Captura:** Grabaciones fonomecánicas pulmonares capturadas mediante un **estetoscopio electrónico 3M Littmann modelo 3200** colocado en diversas posiciones anatómicas de la pared torácica.
-* **Volumen:** **340 grabaciones** correspondientes a **112 sujetos** (35 sanos y 77 con afecciones, cubriendo edades de 21 a 90 años).
+* Cubren edades de 21 a 90 años.
 * **Enlace Oficial:** [ALSD en Mendeley Data](https://data.mendeley.com/datasets/jwyy9np4gv/3)
 
 ### 🌐 3. Pulmonary (Lungs) Sound Dataset
 * **Origen:** Recopilado y clasificado por médicos profesionales del [Hospital Fortis](https://www.fortishealthcare.com/location/fortis-flt-lt-rajan-dhall-hospital-vasant-kunj) en Nueva Delhi, India.
 * **Especificación Técnica:** Las grabaciones se realizaron mediante un estetoscopio electrónico conectado a una computadora portátil a través de un amplificador de señal. El sistema físico se configuró específicamente para **amplificar el rango de frecuencias críticas entre 70 Hz y 2000 Hz**, garantizando la captura precisa de fenómenos acústicos respiratorios.
-* **Volumen:** **676 grabaciones respiratorias** que abarcan un espectro clínico diverso.
 * **Enlace Oficial:** [Pulmonary Sound en Mendeley Data](https://data.mendeley.com/datasets/fr7zvy8j5s/1)
 
 ---
 
-### 📊 Resumen Estadístico del Dataset Consolidado
+## 📊 Resumen Estadístico del Dataset Consolidado
 
-La integración y homologación de estas tres fuentes internacionales permitieron construir un conjunto de datos robusto de **1.936 grabaciones** y más de **238 pacientes**, permitiendo construir un conjunto de datos más diverso y representativo para el entrenamiento y evaluación de los modelos de clasificación. de **Asma, EPOC, Neumonía y condiciones normales**.
+La integración y homologación de las **tres bases de datos públicas internacionales** permitió construir un conjunto consolidado de **1.247 grabaciones** provenientes de **más de 238 pacientes**, proporcionando una muestra más diversa y representativa para el entrenamiento, validación y evaluación de modelos de clasificación de **Asma, EPOC, Neumonía y Normal**.
 
-**Proceso de integración:** Todos los datasets fueron sometidos a un proceso uniforme de preprocesamiento, segmentación, normalización y balanceo antes del entrenamiento de los modelos.
+| Dataset                     | Grabaciones | Pacientes/Sujetos | Método de adquisición                            |
+| :-------------------------- | :---------: | :---------------: | :----------------------------------------------- |
+| **ICBHI 2017**              |     866     |        126        | Estetoscopio electrónico                         |
+| **ALSD-Net**                |     137     |        112        | Estetoscopio electrónico                         |
+| **Pulmonary (Lungs) Sound** |     244     |       *N/D*       | Estetoscopio electrónico y micrófono             |
+| **Total consolidado**       |  **1.247**  |      **238+**     | **Clasificación: Asma, EPOC, Neumonía y Normal** |
 
-| Dataset | Grabaciones | Pacientes/Sujetos | Método de Adquisición |
-| :--- | :---: | :---: | :--- |
-| **ICBHI 2017** | 920 | 126 | Grabaciones Multi-centro (Portugal/Grecia) |
-| **ALSD-Net** | 340 | 112 | Estetoscopio Electrónico 3M Littmann 3200 |
-| **Pulmonary (Lungs) Sound** | 676 | *N/D* | Amplificación de Frecuencias (70 Hz - 2000 Hz) |
-| **Total Consolidado** | **1.936** | **238+** | **Clasificación: Asma, EPOC, Neumonía, Normal** |
-
----
-### 📊 Distribución y Composición del Dataset Consolidado
-
-La integración y homologación de las tres fuentes internacionales dio como resultado un espectro de datos diverso y representativo. A continuación se detalla la distribución exacta de muestras de audio (segmentos de ciclos respiratorios) clasificados por patología e identificando el desbalanceo biológico inicial del problema:
-
-| Diagnóstico / Clase | Cantidad de Muestras (Audios) | Porcentaje (%) | Estado de Distribución |
-| :--- | :---: | :---: | :--- |
-| **🫁 EPOC** (Enfermedad Pulmonar Obstructiva Crónica) | 1.100 | 56.82 % | Mayoritaria (Predominante) |
-| **🫁 Normal** (Condición Saludable) | 526 | 27.17 % | Moderada |
-| **🫁 Neumonía** | 196 | 10.12 % | Minoritaria |
-| **🫁 Asma** | 114 | 5.89 % | Críticamente Minoritaria |
-| **Total General** | **1.936** | **100.00 %** | **Dataset Homologado** |
-
-> 🛡️ **Nota de MLOps y Calidad de Datos:** Como se observa en la matriz de distribución, el dataset presenta un marcado desbalanceo de clases (típico en entornos médicos reales donde ciertas patologías crónicas tienen mayor tasa de registro). Para mitigar este sesgo y evitar que la red neuronal CNN-BiLSTM optimizara únicamente para la clase mayoritaria (EPOC), el pipeline implementa **técnicas de balanceo automático mediante ponderación de pesos en la función de pérdida (Class Weights)** durante el entrenamiento, garantizando que el modelo penalice con igual rigurosidad los fallos en clases minoritarias como el Asma o la Neumonía.
+> 🛡️ Calidad de los datos y prevención de Data Leakage: Las cantidades de grabaciones corresponden al conjunto consolidado de audios seleccionado para este proyecto, no al tamaño original de cada dataset. Se conservaron únicamente las clases **Asma, EPOC, Neumonía y Normal**, descartando las demás patologías. Posteriormente, los audios fueron procesados mediante un pipeline uniforme que incluyó **filtrado de calidad, segmentación con un solapamiento del 25 %, extracción de coeficientes MFCC, normalización y balanceo de clases**. Cada segmento conservó un identificador del audio de origen, lo que permitió realizar el particionado mediante **GroupShuffleSplit**, garantizando que todos los segmentos derivados de una misma grabación permanecieran en el mismo conjunto (entrenamiento, validación o prueba) y evitando así el **Data Leakage**.
 
 ---
-| Dataset                                      |       Pacientes | Población                        | Clases principales                                                       | Sitios de auscultación            |
-| -------------------------------------------- | --------------: | -------------------------------- | ------------------------------------------------------------------------ | --------------------------------- |
-| **ICBHI 2017 Respiratory Sound Database**    |             126 | Niños, adultos y adultos mayores | Normal, Asma, EPOC, Neumonía, Bronquiolitis, Bronquiectasias, URTI, etc. | 8 puntos torácicos estandarizados |
-| **ALSD-Net (Annotated Lung Sounds Dataset)** |             112 | 21–90 años                       | Normal, Asma, EPOC, Bronquitis, Fibrosis pulmonar, Derrame pleural, etc. | 8 regiones anatómicas del tórax   |
-| **Pulmonary (Lungs) Sound Dataset**          | No especificado | Niños, adultos y adultos mayores | Normal, Asma, EPOC, Neumonía, Derrame pleural, Roncus, Sibilancias, etc. | Región pulmonar general           |
 
-> 🛡️ **Nota de MLOps y Calidad de Datos:** Los tres conjuntos de datos contienen grabaciones de sonidos respiratorios obtenidas mediante auscultación clínica. Aunque presentan diferencias en el número de pacientes, patologías y puntos de adquisición, todos fueron unificados mediante un proceso de preprocesamiento, normalización y mapeo de etiquetas para entrenar y evaluar los modelos de clasificación de forma consistente.
----
-## 🧪 ¡Probalo en Producción! (Audios de Prueba)
-
-Podés interactuar directamente con el modelo desplegado utilizando la interfaz interactiva Swagger UI:
-
-🔗 Enlace de la API: [API Render](https://end-to-end-pipeline-audio-ia.onrender.com/docs). 
+# 🧪 ¡Probá la API en producción!
 
 **📥 Paso 1: Descargá un Audio de Prueba**
 
@@ -255,47 +229,75 @@ Descargá a tu computadora cualquiera de estas muestras reales para enviarlas a 
 | **Neumonía** | [📥 Descargar Audio de Prueba](./ml/examples/Pneumonia.wav) | `Clasificación: Neumonía` |
 | **Normal** | [📥 Descargar Audio de Prueba](./ml/examples/Normal.wav) | `Clasificación: Normal` |
 
+⚠️ **¿Querés probar con tus propias grabaciones?**
 
-**🚀 Paso 2: Guía de Inferencia en la Interfaz (Swagger)**
+Para obtener resultados comparables con los del entrenamiento, las grabaciones deben cumplir las siguientes condiciones:
+* **Hardware:** Grabaciones realizadas exclusivamente mediante un estetoscopio electrónico.
+* **Frecuencia de muestreo:** Mínimo de 44.1 kHz.
+* **Duración:** No menor a 3 segundos (para capturar al menos un ciclo respiratorio completo) y no mayor a 10 segundos.
 
-    ⏳ Nota de Inicio Técnico (Cold Start): La aplicación se encuentra desplegada en el plan gratuito de Render, si la página inicial se muestra oscura o tarda en cargar, esperá entre 30 a 60 segundos sin refrescar para que el servicio se reactive.
+---
+
+**🚀 Paso 2: Probá la API desplegada en Render**
+
+> ⏳ **Nota de Inicio Técnico (Cold Start):** La aplicación se encuentra desplegada en el plan gratuito de Render. Si la página inicial tarda en cargar, esperá entre 30 a 60 segundos sin refrescar para que el contenedor se reactive del estado de reposo.
+
+Accedé a la API desplegada en Render, cuya documentación interactiva está disponible mediante Swagger UI:
+
+🔗 Enlace de la API: [API en Render](https://end-to-end-pipeline-audio-ia.onrender.com/docs).
 
 Una vez que visualices la interfaz interactiva de FastAPI, seguí estos pasos:
 
-1. Buscá el endpoint con etiqueta verde POST /predict y hacé clic sobre él para desplegarlo.
+1. Buscá el endpoint con etiqueta verde **POST `/predict`** y hacé clic sobre él para desplegar el panel.
+2. Hacé clic en el botón **Try it out** (ubicado arriba a la derecha del panel desplegado).
+3. En el campo de carga de archivos (`file`), hacé clic en **Examinar ...** y subí el audio `.wav` que descargaste en el Paso 1.
+4. Presioná el botón horizontal azul **Execute**.
 
-2. Hacé clic en el botón Try it out (ubicado arriba a la derecha del panel desplegado).
-
-3. En el campo de carga de archivos (file), hacé clic en Seleccionar archivo y subí el audio .wav que descargaste en el Paso 1.
-
-4. Presioná el botón azul grande Execute.
-
+---
 
 **📄 Ejemplo de Respuesta de la API**
 
-Tras procesar el audio en tiempo real extrayendo los MFCCs e inyectándolos en la red neuronal CNN-BiLSTM, la API te devolverá un estado 200 con este formato:
+Tras procesar el audio, la API ejecuta automáticamente el pipeline de procesamiento, que comprende el filtrado de calidad, la segmentación, la extracción de coeficientes MFCC y la inferencia mediante la arquitectura neuronal **CNN-LSTM**. Como resultado, devuelve una respuesta HTTP 200 OK con un objeto JSON que contiene el estado de la operación, el nombre del archivo procesado, la clase predicha y el nivel de confianza asociado.
 
-```
+```json
 {
   "status": "success",
   "filename": "107_2b4_Pr_mc_AKGC417L.wav",
-  "prediction": "Epoc",
+  "prediction": "EPOC",
   "confidence": "99.93%"
 }
 ```
----
+
+--- 
+
 ## 🎓 Trabajo Final de Ingeniería
 
-Este proyecto fue desarrollado como Trabajo Final de la carrera de Ingeniería.
+Este proyecto tiene su origen en el **Trabajo Final de la carrera de Ingeniería en Informática** de la **Facultad de Ingeniería de la Universidad Nacional de Jujuy (FI-UNJu)**.
 
-✅ Proyecto aprobado con calificación **10/10**.
+La investigación fue desarrollada bajo la dirección y el respaldo del **Laboratorio de GeoTecnologías y Ciencias de las Imágenes (FI-UNJu)** y obtuvo la calificación máxima de **10/10**.
 
-El trabajo presenta el diseño e implementación de una plataforma End-to-End basada en Inteligencia Artificial para la clasificación automática de patologías pulmonares mediante sonidos respiratorios.
+El trabajo de tesis abordó el diseño, desarrollo y validación de modelos de Inteligencia Artificial para la clasificación automática de patologías pulmonares mediante sonidos respiratorios.
+
+Tras la aprobación de la tesis, el proyecto continuó evolucionando como una iniciativa personal, incorporando una arquitectura **End-to-End** orientada a producción, que incluye una API REST, contenedorización con Docker, interfaz web y herramientas para facilitar su despliegue y utilización en distintos entornos.
+
+---
+## 🎓 Trabajo Final de Ingeniería e Iniciativa MLOps
+
+Este proyecto tiene su origen en el **Trabajo Final de la carrera de Ingeniería en Informática** de la **Facultad de Ingeniería de la Universidad Nacional de Jujuy (FI-UNJu)**. La investigación científica y el desarrollo del núcleo de IA se realizaron bajo la dirección y el respaldo del **Laboratorio de GeoTecnologías y Ciencias de las Imágenes (FI-UNJu)**. El Trabajo Final fue defendido obteniendo la calificación máxima de **10/10**.
+
+El trabajo de tesis abordó el diseño, desarrollo y validación de modelos de Inteligencia Artificial para la clasificación automática de patologías pulmonares mediante sonidos respiratorios.
+
+Tras la aprobación académica, el proyecto continuó evolucionando como una iniciativa personal de ingeniería de software orientada a producción. En esta segunda etapa, se diseñó e implementó una arquitectura **End-to-End** madura que transformó los scripts de investigación en una plataforma escalable, incorporando:
+* 🚀 Exposición de modelos mediante una **API REST (FastAPI)** con documentación interactiva (Swagger UI).
+* 🐳 Aislamiento de entornos y portabilidad total mediante contenedorización con **Docker**.
+* 🔄 Automatización del flujo de datos y dependencias mediante orquestación con **Apache Airflow**.
+* ⚙️ Preprocesamiento de los datos mediante **Pyspark**.
+* ☁️ Infraestructura de despliegue continuo en la nube a través de **Render**.
 
 ---
 ## 📝 Publicaciones y Contribuciones Académicas
 
-La rigurosidad, metodologías y validaciones cruzadas aplicadas en este proyecto fueron arbitradas, aprobadas y expuestas en prestigiosos congresos de ciencias de la computación:
+La rigurosidad, metodologías y validaciones aplicadas en este proyecto fueron arbitradas, aprobadas y expuestas en prestigiosos congresos de ciencias de la computación:
 
 1. **Tolaba, N. I., & Sarmiento, G. N. R. (2025).** *“Identificación Inteligente de Enfermedades Pulmonares en Audios Respiratorios”*. XXVII Congreso Argentino de Ciencias de la Computación (**CACIC 2025**). Universidad Nacional de Jujuy.
 2. **Tolaba, N. I., et al. (2025).** *“Deep Learning aplicado a la identificación de cantos de anuncio de Boana riojana (Amphibia: Anura)”*. XXVI Workshop de Investigadores en Ciencias de la Computación (**WICC 2025**). *Nota: Validación exitosa de la adaptabilidad y robustez transespecie de las arquitecturas híbridas desarrolladas sobre señales bioacústicas de anfibios de la región.*
@@ -303,18 +305,22 @@ La rigurosidad, metodologías y validaciones cruzadas aplicadas en este proyecto
 ---
 ## ⚠️ Limitaciones
 
-- No reemplaza el diagnóstico médico.
-- El modelo fue entrenado sobre datasets públicos.
-- El rendimiento puede variar con dispositivos de captura diferentes.
+* El sistema constituye una herramienta de apoyo y **no reemplaza el diagnóstico médico profesional**.
+* El modelo fue entrenado y evaluado utilizando **datasets públicos para investigación**, por lo que su desempeño en otros entornos clínicos puede diferir.
+* El rendimiento puede verse afectado por diferencias en los dispositivos de captura, el ruido ambiental y las condiciones de adquisición del audio.
+* El número de grabaciones disponibles para algunas patologías es limitado. La incorporación de un mayor volumen y diversidad de registros clínicos permitiría mejorar la capacidad de generalización del modelo y potencialmente incrementar sus métricas de desempeño.
 
 ---
 ## 🔮 Líneas de Trabajo Futuro
 
-- **Validación Clínica Regional:** Evaluar los modelos entrenados utilizando registros clínicos y condiciones acústicas controladas de pacientes locales en entornos hospitalarios de la provincia.
-- **Optimización para Dispositivos Móviles:** Exportar el modelo entrenado a formatos ligeros como *TensorFlow Lite* (`.tflite`) o *ONNX* para habilitar la inferencia *offline* directamente en aplicaciones móviles (Android/iOS).
-- **Asistencia en Puntos de Atención (Point-of-Care):** Integración con hardware de estetoscopios digitales accesibles para telemedicina en zonas rurales de bajos recursos.
+* **Validación Clínica Regional:** Evaluar los modelos entrenados utilizando registros clínicos y condiciones acústicas controladas de pacientes en entornos hospitalarios.
+* **Ampliación del Conjunto de Datos:** Incorporar nuevas grabaciones provenientes de diferentes instituciones de salud para aumentar la diversidad de pacientes, dispositivos y condiciones de captura.
+* **Optimización para Dispositivos Móviles:** Exportar el modelo entrenado a formatos ligeros como *TensorFlow Lite* (`.tflite`) o *ONNX* para habilitar la inferencia *offline* directamente en aplicaciones móviles (Android/iOS).
+* **Asistencia en Puntos de Atención (Point-of-Care):** Integración con hardware de estetoscopios digitales accesibles para telemedicina en zonas rurales de bajos recursos.
 
 ---
+
+
 
 
 
