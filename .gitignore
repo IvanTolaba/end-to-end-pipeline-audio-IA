@@ -49,17 +49,13 @@ data/**/*
 # Machine Learning Artifacts
 # Large generated files should not be versioned
 # ==================================================
-#ml/artifacts/models/
+ml/artifacts/models/
 ml/artifacts/cache/
 ml/artifacts/history/
 
-#*.h5
-#*.keras
-#*.pkl
-
-# Ignoramos todos los .keras, EXCEPTO tu modelo de producción:
-#*.keras
-#!ml/artifacts/models/*.keras
+*.h5
+*.keras
+*.pkl
 
 # ==================================================
 # Training Outputs & Reports

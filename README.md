@@ -1,9 +1,13 @@
 
-# End-to-End AI and MLOps Pipeline for Automatic Diagnosis of Pulmonary Pathologies via Respiratory Sounds
+# # End-to-End Data Engineering, Machine Learning and MLOps Pipeline for Automatic Pulmonary Disease Diagnosis from Respiratory Sounds
 
 > 🌐 **Language / Idioma:** [Read in English (Inglés)](./README.md) | Español
 
-This project implements a comprehensive Data Engineering, Machine Learning, and MLOps solution for the automatic diagnosis of pulmonary pathologies using respiratory sounds. A reproducible pipeline was developed to automate ingestion, distributed signal preprocessing, MFCC feature extraction, and dataset generation to train and evaluate four Deep Learning architectures (LSTM, BiLSTM, CNN-LSTM, and CNN-BiLSTM). The CNN-LSTM architecture achieved the highest overall performance and was deployed to production using FastAPI, Docker, and Render for real-time inference.
+This project implements a comprehensive Data Engineering, Machine Learning, and MLOps solution for the automatic diagnosis of pulmonary diseases from respiratory sounds.
+
+A reproducible End-to-End pipeline was developed to automate data ingestion, distributed signal preprocessing, MFCC feature extraction, dataset generation, model training, and evaluation across four Deep Learning architectures (LSTM, BiLSTM, CNN-LSTM, and CNN-BiLSTM).
+
+Among them, the CNN-LSTM architecture achieved the best overall performance and was deployed to production using FastAPI, Docker, and Render for real-time inference.
 
 ---
 
@@ -19,7 +23,7 @@ This project implements a comprehensive Data Engineering, Machine Learning, and 
 ## 📸 Overall Architecture
 ![Project architecture](./images/arq4.png)
 
-*The architecture summarizes the implemented End-to-End pipeline, integrating Data Engineering, Machine Learning, and MLOps to automate the entire workflow—from respiratory sound acquisition to deploying the CNN-LSTM model in production using FastAPI, Docker, and Render.*
+*The architecture summarizes the implemented End-to-End pipeline, integrating Data Engineering, Machine Learning, and MLOps into a unified End-to-End workflow from respiratory sound acquisition to deploying the CNN-LSTM model in production using FastAPI, Docker, and Render.*
 
 ---
 ## 🎬 Demo
@@ -30,7 +34,7 @@ This project implements a comprehensive Data Engineering, Machine Learning, and 
 
 ## 🎯 Objetivo
 
-To develop an End-to-End platform that automates the distributed processing of respiratory sounds, acoustic feature extraction, and the automatic diagnosis of pulmonary pathologies (Asthma, Pneumonia, COPD, and Normal condition) using Artificial Intelligence and MLOps techniques.
+Develop an End-to-End platform that automates distributed respiratory sound processing, acoustic feature extraction, and the automatic diagnosis of pulmonary diseases using Data Engineer, Artificial Intelligence and MLOps.
 
 ---
 
@@ -39,7 +43,7 @@ To develop an End-to-End platform that automates the distributed processing of r
 - Reproducible End-to-End Pipeline.
 - Distributed preprocessing powered by PySpark.
 - Automated MFCC feature extraction.
-- Training of four Deep Learning architectures: CNN, BiLSTM, CNN-LSTM, and CNN-BiLSTM.
+- Training and evaluation of four Deep Learning architectures: CNN, BiLSTM, CNN-LSTM, and CNN-BiLSTM.
 - Fully orchestrated pipeline with Apache Airflow.
 - REST API developed with FastAPI.
 - Complete containerization using Docker.
@@ -52,7 +56,7 @@ To develop an End-to-End platform that automates the distributed processing of r
 
 The system automates the entire respiratory sound processing lifecycle, mapping the workflow from signal acquisition to production inference:
 
-1. **Data Acquisition and Ingestion:** Loading of pulmonary phonomyeographic records by integrating multiple international clinical reference databases.
+1. **Data Acquisition and Ingestion:** Ingestion of respiratory sound recordings collected from multiple international clinical datasets. 
 2. **Distributed Preprocessing:** Scalable noise filtering (*denoising*) and segmentation of acoustic signals optimized at a large scale using **PySpark**.
 3. **Advanced Feature Engineering:** Conversion of raw audio signals into numerical representations through Mel-Frequency Cepstral Coefficients (MFCC) extraction. This process runs under the following mathematical and filtering sequence:
    - **Pre-emphasis:** Application of a high-pass filter to compensate for the natural attenuation of high-frequency components in the human respiratory tract.
@@ -103,10 +107,10 @@ During development, the following software engineering and MLOps practices were 
 
 | Domain | Technologies / Tools |
 | :--- | :--- |
-| **🧠 Machine Learning e IA** | TensorFlow, Keras, Scikit-Learn, NumPy, Pandas |
+| **🧠 Machine Learning & IA** | TensorFlow, Keras, Scikit-Learn, NumPy, Pandas |
 | **🎵 Audio Processing** | Librosa, SoundFile |
 | **⚙️ Data Engineering & Orchestration** | Apache Airflow, Apache Spark (PySpark), Parquet, JSON |
-| **⚡ Backend y API** | FastAPI, Uvicorn, Postman |
+| **⚡ Backend & API** | FastAPI, Uvicorn, Postman |
 | **🐳 MLOps & Deployment** | Docker, Git, GitHub, Render |
 | **🧪 Testing & QA** | Pytest, Logging, Caplog |
 | **📊 Visualization** | Matplotlib, Seaborn |
@@ -162,153 +166,153 @@ During development, the following software engineering and MLOps practices were 
 | Quality Assurance | `tests/` | Automated testing with Pytest. |
 
 ---
-### 🏗️ Arquitectura del Proyecto
+### 🏗️ Architecture Overview
 
-El proyecto sigue una arquitectura modular por capas, separando las responsabilidades de orquestación, ingeniería de datos, entrenamiento de modelos, despliegue, infraestructura y aseguramiento de la calidad. Esta organización facilita la mantenibilidad, la escalabilidad y la reproducibilidad de la solución.
+The project follows a modular layered architecture, separating responsibilities into orchestration, data engineering, machine learning, model serving, infrastructure and quality assurance.
 
-| Capa | Directorio | Responsabilidad |
-|------|------------|-----------------|
-| **Orquestación de Flujos** | `airflow/` | Define los DAGs que automatizan y coordinan el pipeline ETL, el entrenamiento y la evaluación de los modelos. |
-| **Data Engineering** | `etl/` | Implementa la ingesta, el preprocesamiento, la segmentación y la extracción distribuida de características MFCC mediante PySpark. |
-| **Machine Learning** | `ml/` | Contiene el entrenamiento, la evaluación, los reportes y los artefactos generados por los modelos. |
-| **Servicio de Modelos (Serving)** | `api/` | Expone el modelo entrenado mediante una API REST desarrollada con FastAPI para realizar inferencias en tiempo real. |
-| **Infraestructura** | `docker/` | Incluye los Dockerfiles y la configuración necesaria para la contenerización de los distintos servicios. |
-| **Configuración** | `config/` | Centraliza la configuración del proyecto mediante archivos YAML. |
-| **Aseguramiento de la Calidad** | `tests/` | Contiene las pruebas automatizadas implementadas con Pytest para validar el correcto funcionamiento del sistema. |
-
----
-
-## ☁️ Despliegue
-
-La plataforma se encuentra desplegada en **Render**, utilizando contenedores Docker y una API REST desarrollada con FastAPI para realizar inferencias en tiempo real.
+| Layer | Directory | Responsibility |
+|-------|-----------|----------------|
+| Workflow Orchestration | `airflow/` | DAGs that orchestrate ETL, model training and evaluation. |
+| Data Engineering | `etl/` | Data ingestion, preprocessing, segmentation and distributed MFCC extraction with PySpark. |
+| Machine Learning | `ml/` | Model training, evaluation, reports and artifacts. |
+| Model Serving | `api/` | Exposes the trained model through a FastAPI REST API for real-time inference. |
+| Infrastructure | `docker/` | Dockerfiles and containerization of all services. |
+| Configuration | `config/` | Centralized configuration using YAML files. |
+| Quality Assurance | `tests/` | Automated testing with Pytest. ||
 
 ---
 
-## 🧠 Experimentación y Arquitecturas Evaluadas
+## ☁️ Production Deployment
 
-Como parte de la investigación y desarrollo del Trabajo Final, se diseñaron, entrenaron y compararon exhaustivamente cuatro arquitecturas basadas en Deep Learning, las cuales fueron entrenadas y evaluadas bajo exactamente el mismo protocolo experimental para determinar el enfoque óptimo en la clasificación de señales bioacústicas respiratorias:
-
-1. **CNN (Convolutional Neural Network):** Diseñada para actuar como extractor automático de características de alto nivel a partir de las matrices de coeficientes MFCC espaciales.
-2. **BLSTM (Bidirectional Long Short-Term Memory):** Enfocada puramente en el modelado de dependencias secuenciales a largo plazo, analizando el contexto temporal hacia adelante y hacia atrás.
-3. **CNN-LSTM (Híbrida Secuencial):** Una combinación donde la CNN extrae mapas de características espaciales y una capa LSTM convencional procesa su evolución temporal de forma unidireccional.
-4. **CNN-BiLSTM (Híbrida Bidireccional):** Integra bloques convolucionales robustos (`Conv2D`, `MaxPooling2D`) acoplados a capas recurrentes bidireccionales (`Bidirectional(LSTM)`), capturando tanto la morfología espectral como el contexto secuencial completo (pasado y futuro) del ciclo respiratorio.
-
-> 🚀 **Nota de Despliegue en Producción:** Tras un análisis riguroso de métricas, la arquitectura híbrida **CNN-LSTM** fue seleccionada para el despliegue productivo final en **Render** debido a su consistencia, capacidad superior de generalización frente a ruido acústico y el rendimiento reflejado en las métricas.
+The platform is deployed on Render using Docker containers and a FastAPI REST API to provide real-time inference.
 
 ---
 
-## 📊 Experimentación y Selección del Modelo 
+## 🧠 Experimentation and Evaluated Architectures
 
-Para determinar la arquitectura óptima, se evaluaron de forma exhaustiva cuatro variantes de redes neuronales profundas bajo el mismo pipeline de preprocesamiento de PySpark y el mismo protocolo de entrenamiento. 
+As part of the research and development for the Engineering Thesis, four Deep Learning architectures were designed, trained, and exhaustively compared under the exact same experimental protocol to determine the optimal approach for bioacoustic respiratory signal classification:
 
-A fin de garantizar la fiabilidad estadística y mitigar el sobreajuste (*overfitting*), se aplicó una estrategia de división *Hold-Out* (70% train, 15% val, 15% test) combinada y *Early Stopping*.
+1. **CNN (Convolutional Neural Network):** Designed to act as an automatic, high-level spatial feature extractor directly from the MFCC coefficient matrices.
+2. **BLSTM (Bidirectional Long Short-Term Memory):** Focused purely on modeling long-term sequential dependencies, analyzing temporal context in both forward and backward directions.
+3. **CNN-LSTM (Sequential Hybrid):** A combined approach where the CNN extracts spatial feature maps, and a conventional LSTM layer processes their temporal evolution unidirectionally.
+4. **CNN-BiLSTM (Bidirectional Hybrid):** Integrates robust convolutional blocks (`Conv2D`, `MaxPooling2D`) coupled with bidirectional recurrent layers (`Bidirectional(LSTM)`), capturing both spectral morphology and the complete sequential context (past and future) of the respiratory cycle.
 
-### Tabla Comparativa de Rendimiento 
+> 🚀 **Production Deployment Note:** After a rigorous analysis of metrics, the hybrid **CNN-LSTM** architecture was selected for final production deployment on **Render** due to its consistency, superior generalization capabilities against acoustic noise, and overall solid evaluation metrics.
 
-| Arquitectura Evaluada | Exactitud (Accuracy) | Precisión (Precision) | Sensibilidad (Recall) | Puntuación F1 (F1-Score) | ROC-AUC Macro | Estado en el Pipeline / Despliegue |
+---
+
+## 📊 Evaluation & Model Selection 
+
+To determine the optimal architecture, all four deep neural network variants were evaluated under the same PySpark preprocessing pipeline and training protocol.
+
+To guarantee statistical reliability and mitigate *overfitting*, a *Hold-Out* splitting strategy (70% train, 15% val, 15% test) combined with *Early Stopping* was applied.
+
+### Performance Comparison Table
+
+| Evaluated Architecture | Accuracy | Precision | Recall | F1-Score | ROC-AUC Macro | Pipeline Status / Deployment |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| **🧠 CNN-LSTM** | **81 %** | **0.8** | **0.8** | **0.8** | **0.94** | 🟢 **Seleccionado y Desplegado (Render)**  |
-| **🧠 CNN-BiLSTM** | *80.23 %* | *0.80* | *0.80* | *0.79* | *0.94* | 🟡 Evaluado en Fase de Tesis |
-| **🧠 CNN** | *80.23 %* | *0.8* | *0.79* | *0.79* | *0.93* | 🟡 Evaluado en Fase de Tesis |
-| **🧠 BiLSTM** | *68 %* | *0.68* | *0.68* | *0.67* | *0.88* | 🟡 Evaluado en Fase de Tesis |
+| **🧠 CNN-LSTM** | **81 %** | **0.8** | **0.8** | **0.8** | **0.94** | 🟢 **Selected and Displayed (Render)**  |
+| **🧠 CNN-BiLSTM** | *80.23 %* | *0.80* | *0.80* | *0.79* | *0.94* | 🟡 Evaluated in Thesis Phase |
+| **🧠 CNN** | *80.23 %* | *0.8* | *0.79* | *0.79* | *0.93* | 🟡 Evaluated in Thesis Phase |
+| **🧠 BiLSTM** | *68 %* | *0.68* | *0.68* | *0.67* | *0.88* | 🟡 Evaluated in Thesis Phase |
 
-> 📑 **Nota de Ingeniería:** *Aunque se implementaron y evaluaron cuatro arquitecturas bajo el mismo protocolo experimental, la arquitectura CNN-LSTM logró el mejor rendimiento general en términos de extracción de características espaciales y alineación temporal. En consecuencia, fue seleccionada como el modelo de producción final actualmente implementado en Render.*
+> 📑 **Engineering Note:** *Although four architectures were implemented and evaluated under the same experimental protocol, the CNN-LSTM architecture achieved the best overall performance regarding spatial feature extraction and temporal alignment. Consequently, it was selected as the final production model currently running on Render.*
 
-### Curvas Analíticas del Modelo Seleccionado
+### Analytical Curves of the Selected Model
 
 <div align="left">  
   <img src="./images/roc-cnn-lstm.PNG" width="55%" alt="Curvas ROC - Modelo CNN-BiLSTM" />
-  <p><i>Curva ROC-AUC Macro del modelo en producción (CNN-LSTM).</i></p>
+  <p><i>ROC-AUC Macro Curve of the Production Model (CNN-LSTM).</i></p>
 </div>
 
 <div align="left">  
   <img src="./images/matriz_confusion_profesional.png" width="55%" alt="Matriz de confusión - Modelo CNN-BiLSTM" />
-  <p><i>Matriz de Confusión resultante del modelo en producción (CNN-LSTM).</i></p>
+  <p><i>Confusion matrix resulting from the production model (CNN-LSTM).</i></p>
 </div>
 
 ---
 
-## 🗃️ Datasets y Adquisición de Datos
+## 🗃️ Datasets and Data Acquisition
 
-El modelo fue entrenado, validado y evaluado utilizando un conjunto consolidado de tres bases de datos públicas de sonidos respiratorios, ampliamente utilizadas en investigación biomédica. Las grabaciones fueron obtenidas en hospitales y centros de investigación internacionales y cuentan con anotaciones clínicas realizadas por especialistas. En conjunto, estos datos proporcionan una base sólida para el desarrollo de modelos de Inteligencia Artificial, al ofrecer información clínicamente confiable, técnicamente consistente y disponible para su utilización en investigación científica.
+The model was trained, validated, and evaluated using a consolidated dataset of three public respiratory sound databases widely used in biomedical research. The recordings were obtained in international hospitals and research centers and feature clinical annotations verified by medical specialists. Together, these sources provide a robust foundation for Artificial Intelligence modeling, offering clinically reliable, technically consistent, and open data for scientific research.
 
 
 
 ### 🌐 1. ICBHI 2017 Respiratory Sound Database
-* **Origen:** Recopilado de forma independiente por el laboratorio Lab3R de la [Universidad de Aveiro (Portugal)](https://www.ua.pt/pt/essua) (junto al Hospital Infante D. Pedro), la [Universidad Aristóteles de Tesalónica (Grecia)](https://www.auth.gr/) (Hospital Papanikolaou) y la [Universidad de Coímbra (Portugal)](https://www.uc.pt/en/).
-* **Validación:** Etiquetas clínicas validadas por neumólogos expertos en el marco del desafío internacional ICBHI.
-* **Enlace Oficial:** [Sitio del Desafío ICBHI 2017](https://bhichallenge.med.auth.gr/)
+* **Origin:** Compiled independently by the Lab3R laboratory of the [University of Aveiro (Portugal)](https://www.ua.pt/pt/essua) (in association with the Hospital Infante D. Pedro), the Aristotle [Aristotle University of Thessaloniki (Greece)](https://www.auth.gr/) (Hospital Papanikolaou), and the [University of Coimbra (Portugal)](https://www.uc.pt/en/).
+* **Validation:** Clinical labels validated by expert pulmonologists within the framework of the international ICBHI scientific challenge.
+* **Official Link:** [ICBHI Challenge Site 2017](https://bhichallenge.med.auth.gr/)
 
 ### 🌐 2. Annotated Lung Sounds Dataset (ALSD-Net)
-* **Origen:** Desarrollado por la [Universidad de Ciencia y Tecnología de Jordania](https://www.just.edu.jo/Pages/Default.aspx) en colaboración directa con el Hospital Universitario King Abdullah.
-* **Hardware de Captura:** Grabaciones fonomecánicas pulmonares capturadas mediante un **estetoscopio electrónico 3M Littmann modelo 3200** colocado en diversas posiciones anatómicas de la pared torácica.
-* Cubren edades de 21 a 90 años.
-* **Enlace Oficial:** [ALSD en Mendeley Data](https://data.mendeley.com/datasets/jwyy9np4gv/3)
+* **Origin:** Developed by the [Jordan University of Science and Technology](https://www.just.edu.jo/Pages/Default.aspx) in direct collaboration with the King Abdullah University Hospital.
+* **Capture Hardware:**. Pulmonary phonomechanical recordings captured via a **3M Littmann electronic stethoscope model 3200** placed in various anatomical positions on the chest wall.
+* Covers age ranges from 21 to 90 years.
+* **Official Link:** [ALSD on Mendeley Data](https://data.mendeley.com/datasets/jwyy9np4gv/3)
 
 ### 🌐 3. Pulmonary (Lungs) Sound Dataset
-* **Origen:** Recopilado y clasificado por médicos profesionales del [Hospital Fortis](https://www.fortishealthcare.com/location/fortis-flt-lt-rajan-dhall-hospital-vasant-kunj) en Nueva Delhi, India.
-* **Especificación Técnica:** Las grabaciones se realizaron mediante un estetoscopio electrónico conectado a una computadora portátil a través de un amplificador de señal. El sistema físico se configuró específicamente para **amplificar el rango de frecuencias críticas entre 70 Hz y 2000 Hz**, garantizando la captura precisa de fenómenos acústicos respiratorios.
-* **Enlace Oficial:** [Pulmonary Sound en Mendeley Data](https://data.mendeley.com/datasets/fr7zvy8j5s/1)
+* **Origen:** .Collected and classified by professional physicians at the [Hospital Fortis](https://www.fortishealthcare.com/location/fortis-flt-lt-rajan-dhall-hospital-vasant-kunj) in New Delhi, India.
+* **Technical Specification:** Recordings were made using an electronic stethoscope connected to a laptop through a signal amplifier. The physical system was specifically configured to **amplify the critical frequency range between 70 Hz and 2000 Hz**, ensuring precise capture of acoustic respiratory phenomena.
+* **Official Link:** [Pulmonary Sound on Mendeley Data](https://data.mendeley.com/datasets/fr7zvy8j5s/1)
 
 ---
 
-## 📊 Resumen Estadístico del Dataset Consolidado
+## 📊 Statistical Summary of the Consolidated Dataset
 
-La integración y homologación de las **tres bases de datos públicas internacionales** permitió construir un conjunto consolidado de **1.247 grabaciones** provenientes de **más de 238 pacientes**, proporcionando una muestra más diversa y representativa para el entrenamiento, validación y evaluación de modelos de clasificación de **Asma, EPOC, Neumonía y Normal**.
+The integration and standardization of the **three international public databases** allowed the construction of a consolidated set of **1,247 recordings** representing **more than 238 patients**, providing a highly diverse and representative sample for training, validating, and evaluating classification models for **Asthma, COPD, Pneumonia, and Normal condition**.
 
-| Dataset                     | Grabaciones | Pacientes/Sujetos | Método de adquisición                            |
+| Dataset                     | Recordings | Patients/Subjects | Acquisition Method                            |
 | :-------------------------- | :---------: | :---------------: | :----------------------------------------------- |
-| **ICBHI 2017**              |     866     |        126        | Estetoscopio electrónico                         |
-| **ALSD-Net**                |     137     |        112        | Estetoscopio electrónico                         |
-| **Pulmonary (Lungs) Sound** |     244     |       *N/D*       | Estetoscopio electrónico y micrófono             |
-| **Total consolidado**       |  **1.247**  |      **238+**     | **Clasificación: Asma, EPOC, Neumonía y Normal** |
+| **ICBHI 2017**              |     866     |        126        | Electronic Stethoscope                         |
+| **ALSD-Net**                |     137     |        112        | Electronic Stethoscope                         |
+| **Pulmonary (Lungs) Sound** |     244     |       *N/D*       | Electronic stethoscope and microphone             |
+| **Consolidated total**       |  **1.247**  |      **238+**     | **Classification: Asthma, COPD, Pneumonia and Normal** |
 
-> 🛡️ Calidad de los datos y prevención de Data Leakage: Las cantidades de grabaciones corresponden al conjunto consolidado de audios seleccionado para este proyecto, no al tamaño original de cada dataset. Se conservaron únicamente las clases **Asma, EPOC, Neumonía y Normal**, descartando las demás patologías. Posteriormente, los audios fueron procesados mediante un pipeline uniforme que incluyó **filtrado de calidad, segmentación con un solapamiento del 25 %, extracción de coeficientes MFCC, normalización y balanceo de clases**. Cada segmento conservó un identificador del audio de origen, lo que permitió realizar el particionado mediante **GroupShuffleSplit**, garantizando que todos los segmentos derivados de una misma grabación permanecieran en el mismo conjunto (entrenamiento, validación o prueba) y evitando así el **Data Leakage**.
+> 🛡️ Data Quality & Data Leakage Prevention: The recording counts correspond to the consolidated subset of audio files curated for this project, not the original size of each individual dataset. Only the **Asthma, COPD, Pneumonia, and Normal** classes were preserved, filtering out other pathologies. Subsequently, audios were processed through a uniform pipeline that included **quality filtering, segmentation with 25% overlap, MFCC coefficient extraction, normalization, and class balancing**. Each segment retained an identifier of its source recording, allowing partitioning via **GroupShuffleSplit**. This guaranteed that all segments derived from a single recording remained in the same set (train, validation, or test), strictly preventing **Data Leakage**.
 
 ---
 
-# 🧪 ¡Probá la API en producción!
+# 🧪 Try the Live API in Production!
 
-**📥 Paso 1: Descargá un Audio de Prueba**
+**📥 Step 1: Download a Sample Audio File**
 
-Descargá a tu computadora cualquiera de estas muestras reales para enviarlas a la API:
+Download any of these real patient audio samples to your computer to send to the live API:
 
-| Patología Real | Enlace de Descarga de Prueba | Estado Esperado de la API |
+| Actual Pathology | Download Link | Expected API Classification |
 | :--- | :--- | :--- |
-| **Asma** | [📥 Descargar Audio de Prueba](./ml/examples/Asthma.wav) | `Clasificación: Asma` |
-| **EPOC** | [📥 Descargar Audio de Prueba](./ml/examples/Copd.wav) | `Clasificación: EPOC` |
-| **Neumonía** | [📥 Descargar Audio de Prueba](./ml/examples/Pneumonia.wav) | `Clasificación: Neumonía` |
-| **Normal** | [📥 Descargar Audio de Prueba](./ml/examples/Normal.wav) | `Clasificación: Normal` |
+| **Asthma** | [📥 Download Sample Audio](./ml/examples/Asthma.wav) | `Classification: Asthma` |
+| **COPD** | [📥 Download Sample Audio](./ml/examples/Copd.wav) | `Classification: COPD` |
+| **Pneumonia** | [📥 Download Sample Audio](./ml/examples/Pneumonia.wav) | `Classification: Pneumonia` |
+| **Normal** | [📥 Download Sample Audio](./ml/examples/Normal.wav) | `Classification: Normal` |
 
-⚠️ **¿Querés probar con tus propias grabaciones?**
+⚠️ **Want to test with your own audio recordings?**
 
-Para obtener resultados comparables con los del entrenamiento, las grabaciones deben cumplir las siguientes condiciones:
-* **Hardware:** Grabaciones realizadas exclusivamente mediante un estetoscopio electrónico.
-* **Frecuencia de muestreo:** Mínimo de 44.1 kHz.
-* **Duración:** No menor a 3 segundos (para capturar al menos un ciclo respiratorio completo) y no mayor a 10 segundos (para mantener un procesamiento e inferencia eficientes).
-
----
-
-**🚀 Paso 2: Probá la API desplegada en Render**
-
-> ⏳ **Nota de Inicio Técnico (Cold Start):** La aplicación se encuentra desplegada en el plan gratuito de Render. Si la página inicial tarda en cargar, esperá entre 30 a 60 segundos sin refrescar para que el contenedor se reactive del estado de reposo.
-
-Accedé a la API desplegada en Render, cuya documentación interactiva está disponible mediante Swagger UI:
-
-🔗 Enlace de la API: [API en Render](https://end-to-end-pipeline-audio-ia.onrender.com/docs).
-
-Una vez que visualices la interfaz interactiva de FastAPI, seguí estos pasos:
-
-1. Buscá el endpoint con etiqueta verde **POST `/predict`** y hacé clic sobre él para desplegar el panel.
-2. Hacé clic en el botón **Try it out** (ubicado arriba a la derecha del panel desplegado).
-3. En el campo de carga de archivos (`file`), hacé clic en **Examinar ...** y subí el audio `.wav` que descargaste en el Paso 1.
-4. Presioná el botón horizontal azul **Execute**.
+To obtain results comparable to those of the model's training phase, your recordings must meet the following technical conditions:
+* **Hardware:** Recorded exclusively using an electronic stethoscope.
+* **Sampling Rate:** Minimum of 44.1 kHz.
+* **Duration:** No less than 3 seconds (to capture at least one full respiratory cycle) and no more than 10 seconds (to maintain efficient processing and low-latency inference).
 
 ---
 
-**📄 Ejemplo de Respuesta de la API**
+**🚀 Step 2: Query the Live API on Render**
 
-Tras procesar el audio, la API ejecuta automáticamente el pipeline de procesamiento, que comprende el filtrado de calidad, la segmentación, la extracción de coeficientes MFCC y la inferencia mediante la arquitectura neuronal **CNN-LSTM**. Como resultado, devuelve una respuesta HTTP 200 OK con un objeto JSON que contiene el estado de la operación, el nombre del archivo procesado, la clase predicha y el nivel de confianza asociado.
+> ⏳ **Technical Note (Cold Start):** The application is deployed on Render's free tier. If the initial page takes some time to load, please wait 30 to 60 seconds without refreshing so the container can spin up from its idle state.
+
+Access the API deployed on Render, whose interactive documentation is powered by Swagger UI:
+
+🔗 API Link: [API en Render](https://end-to-end-pipeline-audio-ia.onrender.com/docs).
+
+Once you see the interactive FastAPI Swagger UI, follow these steps:
+
+1. Locate the endpoint with the green label **POST `/predict`** and click to expand it
+2. Click the **Try it out** button (located on the top right of the expanded panel).
+3. In the file upload field (`file`), click **Choose File...** and upload the .wav audio file you downloaded in Step 1.
+4. Click the large blue horizontal **Execute** button
+
+---
+
+**📄 Example API Response**
+
+After receiving the audio, the API automatically executes the processing pipeline (quality filtering, segmentation, MFCC extraction, and inference via the **CNN-LSTM** neural network). It returns an HTTP 200 OK response with a JSON object containing the execution status, the processed filename, the predicted class, and its confidence score:
 
 ```json
 {
@@ -321,72 +325,53 @@ Tras procesar el audio, la API ejecuta automáticamente el pipeline de procesami
 
 --- 
 
-## 🎓 Trabajo Final de Ingeniería e Iniciativa MLOps
+## 🎓 Final Engineering Thesis & MLOps Initiative
 
-Este proyecto tiene su origen en el **Trabajo Final de la carrera de Ingeniería en Informática** de la **Facultad de Ingeniería de la Universidad Nacional de Jujuy (FI-UNJu)**. La investigación científica y el desarrollo del núcleo de IA se realizaron bajo la dirección y el respaldo del **Laboratorio de GeoTecnologías y Ciencias de las Imágenes (FI-UNJu)**. El Trabajo Final fue defendido obteniendo la calificación máxima de **10/10**.
+This project originated as the **Final Graduation Thesis (Trabajo Final)** to obtain the **Computer Engineering Degree** from the **School of Engineering at the National University of Jujuy (FI-UNJu)**. The scientific research and development of the AI core were conducted under the direction and support of the **GeoTechnologies and Image Sciences Laboratory (FI-UNJu)**. The Thesis was defended, obtaining the maximum grade of **10/10**.
 
-El Trabajo Final abordó el diseño, entrenamiento y validación de modelos de Deep Learning para la clasificación automática de patologías pulmonares Asma, Neumonía, EPOC y condición Normal mediante sonidos respiratorios.
+The research focused on the design, training, and validation of Deep Learning models for the automatic classification of Asthma, Pneumonia, COPD, and Normal pulmonary conditions using respiratory acoustic signals.
 
-Tras la aprobación académica, el proyecto evolucionó como una iniciativa personal con el objetivo de transformar un prototipo de investigación en una plataforma End-to-End orientada a producción, incorporando prácticas de Ingeniería de Datos, Machine Learning y MLOps.
+Following the successful thesis defense, the project evolved into a personal initiative to transform the research prototype into a production-grade End-to-End platform, incorporating software engineering, distributed systems, and MLOps best practices.
 
-Entre las principales mejoras implementadas se encuentran:
+The main improvements implemented include:
 
-* 🚀 Exposición del modelo mediante una **API REST** desarrollada con **FastAPI** y documentación automática con Swagger/OpenAPI.
-* 🔄 Automatización del pipeline de datos,entrenamiento y evaluación mediante **Apache Airflow**.
-* ⚡ Procesamiento distribuido de señales biomédicas utilizando **PySpark**.
-* 🐳 Contenerización completa de la plataforma mediante **Docker**, garantizando portabilidad y reproducibilidad.
-* ☁️ Despliegue continuo en la nube utilizando **Render**, permitiendo inferencias en tiempo real.
-
----
-## 📝 Publicaciones y Contribuciones Académicas
-
-La rigurosidad, metodologías y validaciones aplicadas en este proyecto fueron arbitradas, aprobadas y expuestas en prestigiosos congresos de ciencias de la computación:
-
-1. **Tolaba, N. I., & Sarmiento, G. N. R. (2025).** *“Identificación Inteligente de Enfermedades Pulmonares en Audios Respiratorios”*. XXVII Congreso Argentino de Ciencias de la Computación (**CACIC 2025**). Universidad Nacional de Jujuy.
-2. **Tolaba, N. I., et al. (2025).** *“Deep Learning aplicado a la identificación de cantos de anuncio de Boana riojana (Amphibia: Anura)”*. XXVI Workshop de Investigadores en Ciencias de la Computación (**WICC 2025**). *Nota: Validación exitosa de la adaptabilidad y robustez transespecie de las arquitecturas híbridas desarrolladas sobre señales bioacústicas de anfibios de la región.*
+* 🚀 Exposing the model via a REST API developed with FastAPI and automated OpenAPI/Swagger documentation.
+* 🔄 Automating the data, training, and evaluation pipelines using **Apache Airflow**.
+* ⚡ Distributed preprocessing of bioacoustic signals using **PySpark**.
+* 🐳 Complete platform containerization using Docker, ensuring portability and reproducibility.
+* ☁️ Continuous deployment (CD) to the cloud via Render to enable real-time inferences.
 
 ---
-## ⚠️ Limitaciones
+## 📝 Publications & Academic Contributions
 
-* El sistema constituye una herramienta de apoyo y **no reemplaza el diagnóstico médico profesional**.
-* El modelo fue entrenado y evaluado utilizando **datasets públicos para investigación**, por lo que su desempeño en otros entornos clínicos puede diferir.
-* El rendimiento puede verse afectado por diferencias en los dispositivos de captura, el ruido ambiental y las condiciones de adquisición del audio.
-* El número de grabaciones disponibles para algunas patologías es limitado. La incorporación de un mayor volumen y diversidad de registros clínicos permitiría mejorar la capacidad de generalización del modelo y potencialmente incrementar sus métricas de desempeño.
+The methodology, rigor, and validations applied in this project were peer-reviewed, approved, and presented at prestigious computer science conferences:
+
+1. **Tolaba, N. I., & Sarmiento, G. N. R. (2025).** “Identificación Inteligente de Enfermedades Pulmonares en Audios Respiratorios”. XXVII Argentine Congress of Computer Science (**CACIC 2025**). National University of Jujuy.
+2. **Tolaba, N. I., et al. (2025).** *“Deep Learning aplicado a la identificación de cantos de anuncio de Boana riojana (Amphibia: Anura)”*. XXVI Workshop of Researchers in Computer Science (**WICC 2025**). *Note: Successful validation of the cross-species adaptability and robustness of the developed hybrid architectures on bioacoustic signals of native amphibians.*
 
 ---
+## ⚠️ Limitations
 
-## 🔮 Líneas de Trabajo Futuro
-
-* **Validación Clínica Regional:** Evaluar los modelos entrenados utilizando registros clínicos y condiciones acústicas controladas de pacientes en entornos hospitalarios.
-
-* **Ampliación del Conjunto de Datos:** Incorporar nuevas grabaciones provenientes de diferentes instituciones de salud para incrementar la diversidad de pacientes, dispositivos de captura y condiciones clínicas. Un mayor volumen y variedad de datos permitirá mejorar la capacidad de generalización del modelo y potencialmente incrementar su desempeño.
-
-* **Optimización para Dispositivos Móviles:** Exportar el modelo a formatos ligeros como **TensorFlow Lite** (`.tflite`) u **ONNX** para habilitar la inferencia *offline* en dispositivos Android e iOS.
-
-* **Asistencia en Puntos de Atención (Point-of-Care):** Integrar la plataforma con estetoscopios digitales y soluciones de telemedicina para brindar apoyo al diagnóstico en centros de atención primaria y zonas con acceso limitado a especialistas.
+* This system is designed to be an auxiliary screening tool and **does not replace professional medical diagnosis**.
+* The model was trained and evaluated on **public datasets** curated for research; its performance in other clinical environments may vary.
+* Diagnostic accuracy may be affected by differences in capture hardware, ambient noise, and microphone placement.
+* The number of recordings available for certain pathologies is limited. Incorporating a larger volume and diversity of clinical records would improve the model's generalization capabilities and potentially increase its performance metrics.
 
 ---
 
-## 📄 Licencia
+## 🔮 Future Work
 
-Este proyecto está bajo la Licencia MIT; ya puedes ver el archivo [LICENSE](LICENSE) para más detalles.
+* **Local Clinical Validation:** Evaluate the trained models using clinical records and controlled acoustic conditions of patients in regional hospital environments.
+
+* **Dataset Expansion:** Incorporate new recordings from different healthcare institutions to increase patient diversity, capture devices, and clinical settings. A larger volume and variety of data will improve the model's generalization capabilities.
+
+* **Mobile Device Optimization:** Export the model to lightweight formats like TensorFlow Lite (`.tflite`) or **ONNX** to enable offline, on-device inference for Android and iOS applications.
+
+* **Point-of-Care Assistance:** Integrate the platform with digital stethoscopes and telemedicine solutions to support diagnostic screenings in primary care centers and areas with limited access to specialists.
 
 ---
---- 
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-### 🏗️ Architecture Overview
-
-The project follows a modular layered architecture, separating responsibilities into orchestration, data engineering, machine learning, model serving, infrastructure and quality assurance.
-
-| Layer | Directory | Responsibility |
-|-------|-----------|----------------|
-| Workflow Orchestration | `airflow/` | DAGs that orchestrate ETL, model training and evaluation. |
-| Data Engineering | `etl/` | Data ingestion, preprocessing, segmentation and distributed MFCC extraction with PySpark. |
-| Machine Learning | `ml/` | Model training, evaluation, reports and artifacts. |
-| Model Serving | `api/` | REST API for real-time inference using FastAPI. |
-| Infrastructure | `docker/` | Dockerfiles and containerization of all services. |
-| Configuration | `config/` | Centralized configuration using YAML files. |
-| Quality Assurance | `tests/` | Automated testing with Pytest. |
