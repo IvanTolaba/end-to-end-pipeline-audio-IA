@@ -1,9 +1,11 @@
+# With Docker operator
+
 from datetime import datetime
 from airflow import DAG
 from airflow.providers.docker.operators.docker import DockerOperator
 from docker.types import Mount
 
-# Forzamos los argumentos base para que TODO operador Docker los herede sí o sí
+# Inheritance of arguments
 default_args = {
     "owner": "airflow",
     "start_date": datetime(2025, 1, 1),
@@ -17,7 +19,7 @@ with DAG(
     catchup=False
 ) as dag:
 
-    # Tarea 1: Ejecutar la Ingesta y Procesamiento MFCC con PySpark (Contenedor ETL)
+    # Task 1: Run MFCC Ingestion and Processing with PySpark (ETL Container)
     process_etl = DockerOperator(
         task_id="run_etl_pyspark",
         image="audio-pipeline-etl:latest",
@@ -38,7 +40,7 @@ with DAG(
         }
     )
 
-    # Tarea 2: Entrenamiento del Modelo (Contenedor TensorFlow)
+    # Task 2: Model Training (TensorFlow Container)
     train_model = DockerOperator(
         task_id="run_ml_training",
         image="audio-pipeline-training:latest",
@@ -59,7 +61,7 @@ with DAG(
         }
     )
 
-    # Tarea 3: Evaluación y Reportes (Contenedor TensorFlow/Eval)
+    # Task 3: Evaluation and Reports (TensorFlow/Eval Container)
     evaluate_model = DockerOperator(
         task_id="run_ml_evaluation",
         image="audio-pipeline-training:latest",
@@ -80,7 +82,7 @@ with DAG(
         }
     )
 
-    # Flujo de ejecución secuencial
+    # Sequential execution flow
     process_etl >> train_model >> evaluate_model
 
 

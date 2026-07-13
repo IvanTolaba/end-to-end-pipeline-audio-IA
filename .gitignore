@@ -54,7 +54,7 @@ ml/artifacts/cache/
 ml/artifacts/history/
 
 *.h5
-#*.keras
+*.keras
 *.pkl
 
 # ==================================================

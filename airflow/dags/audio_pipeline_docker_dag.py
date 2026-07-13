@@ -1,4 +1,4 @@
-#BIEN CON PYTHON OPERATOR
+# WITH PYTHON OPERATOR
 
 import sys
 from datetime import datetime
@@ -8,22 +8,20 @@ from pathlib import Path
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 
-# 1. Definir la raíz absoluta dinámicamente (Forzado a string para evitar fallos de tipos)
+# 1. Define the absolute root dynamically 
 PROJECT_ROOT = str(Path(__file__).resolve().parents[2])
 
-# 2. Modificar el path ANTES de cualquier importación local
+# 2. Modify the path BEFORE any local import
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-# 3. Importaciones de componentes de Datos (ETL) y Machine Learning (ML)
+# 3. Imports of Data (ETL) and Machine Learning (ML) components
 from config.settings import DATA_RAW_DIR, DATA_PROCESSED_DIR
 from etl.ingest import ingest_data
 from etl.mfcc_pyspark import process_mfcc
 from etl.save_parquet import save_data
 from pyspark.sql import SparkSession
 
-# 🔹 NUEVAS IMPORTACIONES: Módulos de Entrenamiento y Evaluación
-# (Ajusta el nombre de la función si en tus scripts se llaman distinto, ej: main)
 from ml.training.train import execute_model_training
 from ml.evaluation.evaluate import run_standalone_evaluation
 
@@ -34,7 +32,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # -------------------------
-# 1. Ingest (Guarda metadatos en XCom)
+# 1. Ingest (Save metadata in XCom)
 # -------------------------
 def ingest_task(**context):
     logger.info("Starting Ingestion...")
@@ -42,7 +40,7 @@ def ingest_task(**context):
     context["ti"].xcom_push(key="raw_data_list", value=data)
 
 # -------------------------
-# 2. Spark MFCC + Save (La tarea pesada unificada)
+# 2. Spark MFCC + Save
 # -------------------------
 def spark_processing_task(**context):
     data = context["ti"].xcom_pull(key="raw_data_list", task_ids="ingest_audio")
@@ -107,17 +105,17 @@ with DAG(
         python_callable=spark_processing_task
     )
 
-    # 🔹 NUEVA TAREA: Entrenar el modelo
+    # Train the model
     train_ml = PythonOperator(
         task_id="train_ml_model",
         python_callable=ml_training_task
     )
 
-    # 🔹 NUEVA TAREA: Evaluar el modelo entrenado
+    # Evaluate the trained model
     evaluate_ml = PythonOperator(
         task_id="evaluate_ml_model",
         python_callable=ml_evaluation_task
     )
 
-    # Flujo End-to-End Lineal y Limpio
+    # Sequential End-to-End Flow
     ingest >> process_and_save >> train_ml >> evaluate_ml

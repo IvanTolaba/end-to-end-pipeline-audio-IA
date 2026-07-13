@@ -1,4 +1,4 @@
-# Procesamiento acústico puro (Librosa, MFCC, Normalización, Padding/Truncate).
+# Pure acoustic processing (Librosa, MFCC, Normalization, Truncate).
 
 import io
 import logging
@@ -15,10 +15,10 @@ def preprocess_audio(file_bytes: bytes) -> np.ndarray:
         audio_buffer = io.BytesIO(file_bytes)
         audio, sr = librosa.load(audio_buffer, sr=SAMPLE_RATE)
         
-        #Tranforma a MFCC
+        # Transform to MFCC
         mfcc = librosa.feature.mfcc(y=audio,sr=sr,n_mfcc=N_MFCC).T
 
-        # NORMALIZACIÓN
+        # STANDARDIZATION
         scaler = StandardScaler()
         mfcc = scaler.fit_transform(mfcc).T
         
@@ -30,7 +30,7 @@ def preprocess_audio(file_bytes: bytes) -> np.ndarray:
             
         mfcc_fixed = mfcc_fixed.astype(np.float32)
         
-        # Dimensiones para Keras: (Batch, Filas, Columnas, Canales)
+        # Dimensions for Keras: (Batch, Rows, Columns, Channels)
         mfcc_final = np.expand_dims(mfcc_fixed, axis=-1)
         mfcc_final = np.expand_dims(mfcc_final, axis=0)
         

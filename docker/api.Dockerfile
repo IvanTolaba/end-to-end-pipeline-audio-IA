@@ -10,17 +10,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# Instalar dependencias de producción de la API
+# Install production API dependencies
 COPY requirements/api_requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r api_requirements.txt
 
-# Copiar la estructura de la API, las configuraciones y el artefacto del modelo entrenado
+# Copy the API structure, configurations, and trained model artifact
 COPY api/ /app/api/
 COPY config/ /app/config/
 
 
 EXPOSE 8000
 
-# Apuntamos exactamente al archivo main_api.py y la instancia de tu app FastAPI
+# Point to the main_api.py file and the FastAPI instance
 CMD ["uvicorn", "api.main_api:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -9,8 +9,8 @@ from pathlib import Path
 # ------------------------------------------------------------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# 🔹 NUEVO para airflow: Exportamos la raíz como string absoluto 
-# para entornos externos como Airflow
+# We export the root as an absolute string
+# for external environments like Airflow
 PROJECT_ROOT = str(BASE_DIR)
 
 # Core Pipeline Folders

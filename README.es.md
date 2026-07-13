@@ -1,8 +1,8 @@
-# Pipeline End-to-End de IA y MLOps para la Diagnóstico Automático de Patologías Pulmonares mediante Sonidos Respiratorios
+# Pipeline End-to-End de IA y MLOps para el Diagnóstico Automático de Patologías Pulmonares mediante Sonidos Respiratorios
 
 > 🌐 **Language / Idioma:** [Read in English (Inglés)](./README.md) | Español
 
-Este proyecto implementa una solución completa de Machine Learning y MLOps para la diagnóstico automático de patologías pulmonares a partir de sonidos respiratorios. Se desarrollaron y evaluaron cuatro arquitecturas de Deep Learning (LSTM, BiLSTM, CNN-LSTM y CNN-BiLSTM) utilizando el mismo pipeline de procesamiento distribuido basado en PySpark y extracción de características MFCC. La arquitectura CNN-LSTM obtuvo el mejor rendimiento y fue desplegada en producción mediante FastAPI, Docker y Render para realizar inferencias en tiempo real.
+Este proyecto implementa una solución completa de Data Engineering, Machine Learning y MLOps para la diagnóstico automático de patologías pulmonares a partir de sonidos respiratorios. Se desarrolló un pipeline reproducible que automatiza la ingesta, el procesamiento distribuido de señales, la extracción de características MFCC y la generación de datasets para el entrenamiento y evaluación de cuatro arquitecturas de Deep Learning (LSTM, BiLSTM, CNN-LSTM y CNN-BiLSTM). La arquitectura CNN-LSTM obtuvo el mejor rendimiento y fue desplegada en producción mediante FastAPI, Docker y Render para realizar inferencias en tiempo real.
 
 ---
 
@@ -18,7 +18,7 @@ Este proyecto implementa una solución completa de Machine Learning y MLOps para
 ## 📸 Arquitectura General
 ![Arquitectura del proyecto](./images/arq4.png)
 
-*El sistema automatiza el ciclo de vida completo del Machine Learning, desde la ingesta de datos hasta el despliegue del modelo CCN-LSTM en producción, aplicando procesamiento distribuido, entrenamiento reproducible, versionado y principios de MLOps.*
+*La arquitectura resume el pipeline End-to-End implementado, integrando Data Engineering, Machine Learning y MLOps para automatizar todo el flujo, desde la adquisición de sonidos respiratorios hasta el despliegue del modelo CNN-LSTM en producción mediante FastAPI, Docker y Render.*
 
 ---
 ## 🎬 Demo
@@ -29,21 +29,21 @@ Este proyecto implementa una solución completa de Machine Learning y MLOps para
 
 ## 🎯 Objetivo
 
-Desarrollar una plataforma End-to-End que automatice el procesamiento distribuido de sonidos respiratorios, la extracción de características acústicas y el diagnóstico automático de patologías pulmonares mediante técnicas de Inteligencia Artificial y MLOps.
+Desarrollar una plataforma End-to-End que automatice el procesamiento distribuido de sonidos respiratorios, la extracción de características acústicas y el diagnóstico automático de patologías pulmonares (Asma, Neumonía, EPOC y condición normal) mediante técnicas de Inteligencia Artificial y MLOps.
 
 ---
 
 ## ✨ Características
 
-- Procesamiento distribuido de audio mediante Apache Spark.
+- Pipeline End-to-End reproducible
+- Procesamiento distribuido con PySpark.
 - Extracción automática de características MFCC.
-- Entrenamiento reproducible.
-- Arquitecturas CNN, BiLSTM, CNN-LSTM y CNN-BiLSTM.
+- Entrenamiento de cuatro arquitecturas de Deep Learning: CNN, BiLSTM, CNN-LSTM y CNN-BiLSTM.
 - Pipeline completamente orquestado con Airflow.
-- API REST desarrollada con FastAPI.
+- API REST con FastAPI.
 - Contenerización mediante Docker.
-- Despliegue en la nube.
-- Testing automatizado.
+- Despliegue en Render.
+- Testing automatizado con Pytest.
 
 ---
 
@@ -112,30 +112,85 @@ Durante el desarrollo se implementaron prácticas de Ingeniería de Software y M
 
 ---
 ## 📂 Estructura del Proyecto
+
 ```text
 .end-to-end-pipeline-audio-IA
-├── airflow/           # Orquestación de tareas y definición de DAGs
-├── api/               # Código base de la API REST (FastAPI)
-├── config/            # Archivos de configuración y entornos (.env)
-├── data/              # Data Lake Local (Estructura de almacenamiento)
-├── ml/                # Pipeline de Machine Learning
-│   ├── training/      # Scripts de entrenamiento y optimización
-│   ├── evaluation/    # Reportes de performance
-│   ├── artifacts/     # Pesos de los modelos entrenados (.keras)
-│   └── reports/       # Gráficos y curvas analíticas (arq.png)
-├── notebooks/         # Espacios de experimentación y EDA
-├── tests/             # Pruebas unitarias y de integración
-├── Dockerfile         # Configuración del contenedor de producción
-├── requirements/      # Dependencias desacopladas por módulo
-└── README.md
+├── airflow/                     # DAGs y orquestación del pipeline con Apache
+├── api/                         # API REST desarrollada con FastAPI
+├── config/                      # Configuración centralizada 
+├── docker/                      # # Dockerfiles para los distintos servicios|  
+|    ├── airflow.Dockerfile      # Servicio de orquestación del pipeline
+|    ├── api.Dockerfile          # Servicio de inferencia mediante FastAPI
+|    ├── etl.Dockerfile          # Servicio de procesamiento distribuido con PySpark
+|    ├── training.Dockerfile     # Servicio de entrenamiento y evaluación de modelos         
+│    
+├── etl/                         # Pipeline ETL para procesamiento 
+|    |                           # distribuido de audio
+|    ├── ingest.py               # Ingesta de audios y metadatos
+|    ├── mfcc_pyspark.py         # Extracción distribuida de MFCC con PySpark
+|    ├── save_parquet.py         # Persistencia del dataset en formato Parquet
+|    ├── segment.py              # Segmentación de señales respiratorias
+|
+├── images/                      # Recursos gráficos utilizados en el README
+├── ml/                          # Pipeline de Machine Learning
+|    ├── artifacts/              # Modelos entrenados y artefactos generados
+|    ├── evaluation/             # Evaluación del rendimiento del modelo
+|    ├── examples/               # Audios de muestra para probar modelo desplegado 
+|    ├── reports/                # Reportes de métricas
+│    ├── training/               # Entrenamiento de los modelos
+│         
+├── notebooks/                   # Análisis exploratorio y experimentación 
+├── requirements/                # Dependencias específicas de cada componente
+├── .gitignore
+├── docker-compose.yml           # Orquestación de contenedores
+├── LICENSE   
+├── main.py                      # Punto de entrada 
+├── pytest.ini                   # Configuración de Pytest
+├── README.es.md                 # Documentación en español
+└── README.md                    # Documentación principal en inglés
 
 ```
 
 ---
 
+### 🏗️ Architecture Overview
+
+| Layer | Directory | Responsibility |
+|-------|-----------|----------------|
+| Workflow Orchestration | `airflow/` | DAGs that orchestrate ETL, model training and evaluation. |
+| Data Engineering | `etl/` | Data ingestion, preprocessing, segmentation and distributed MFCC extraction with PySpark. |
+| Machine Learning | `ml/` | Model training, evaluation, reports and artifacts. |
+| Model Serving | `api/` | REST API for real-time inference using FastAPI. |
+| Infrastructure | `docker/` | Dockerfiles and containerization of all services. |
+| Configuration | `config/` | Centralized configuration using YAML files. |
+| Quality Assurance | `tests/` | Automated testing with Pytest. |
+
+---
+### 🏗️ Arquitectura del Proyecto
+
+El proyecto sigue una arquitectura modular por capas, separando las responsabilidades de orquestación, ingeniería de datos, entrenamiento de modelos, despliegue, infraestructura y aseguramiento de la calidad. Esta organización facilita la mantenibilidad, la escalabilidad y la reproducibilidad de la solución.
+
+| Capa | Directorio | Responsabilidad |
+|------|------------|-----------------|
+| **Orquestación de Flujos** | `airflow/` | Define los DAGs que automatizan y coordinan el pipeline ETL, el entrenamiento y la evaluación de los modelos. |
+| **Data Engineering** | `etl/` | Implementa la ingesta, el preprocesamiento, la segmentación y la extracción distribuida de características MFCC mediante PySpark. |
+| **Machine Learning** | `ml/` | Contiene el entrenamiento, la evaluación, los reportes y los artefactos generados por los modelos. |
+| **Servicio de Modelos (Serving)** | `api/` | Expone el modelo entrenado mediante una API REST desarrollada con FastAPI para realizar inferencias en tiempo real. |
+| **Infraestructura** | `docker/` | Incluye los Dockerfiles y la configuración necesaria para la contenerización de los distintos servicios. |
+| **Configuración** | `config/` | Centraliza la configuración del proyecto mediante archivos YAML. |
+| **Aseguramiento de la Calidad** | `tests/` | Contiene las pruebas automatizadas implementadas con Pytest para validar el correcto funcionamiento del sistema. |
+
+---
+
+## ☁️ Despliegue
+
+La plataforma se encuentra desplegada en **Render**, utilizando contenedores Docker y una API REST desarrollada con FastAPI para realizar inferencias en tiempo real.
+
+---
+
 ## 🧠 Experimentación y Arquitecturas Evaluadas
 
-Como parte de la investigación y desarrollo del Trabajo Final, se diseñaron, entrenaron y compararon exhaustivamente cuatro arquitecturas basadas en Deep Learning para determinar el enfoque óptimo en la clasificación de señales bioacústicas respiratorias:
+Como parte de la investigación y desarrollo del Trabajo Final, se diseñaron, entrenaron y compararon exhaustivamente cuatro arquitecturas basadas en Deep Learning, las cuales fueron entrenadas y evaluadas bajo exactamente el mismo protocolo experimental para determinar el enfoque óptimo en la clasificación de señales bioacústicas respiratorias:
 
 1. **CNN (Convolutional Neural Network):** Diseñada para actuar como extractor automático de características de alto nivel a partir de las matrices de coeficientes MFCC espaciales.
 2. **BLSTM (Bidirectional Long Short-Term Memory):** Enfocada puramente en el modelado de dependencias secuenciales a largo plazo, analizando el contexto temporal hacia adelante y hacia atrás.
@@ -166,12 +221,12 @@ A fin de garantizar la fiabilidad estadística y mitigar el sobreajuste (*overfi
 ### Curvas Analíticas del Modelo Seleccionado
 
 <div align="left">  
-  <img src="./images/r2.PNG" width="55%" alt="Curvas ROC - Modelo CNN-BiLSTM" />
+  <img src="./images/roc-cnn-lstm.PNG" width="55%" alt="Curvas ROC - Modelo CNN-BiLSTM" />
   <p><i>Curva ROC-AUC Macro del modelo en producción (CNN-LSTM).</i></p>
 </div>
 
 <div align="left">  
-  <img src="./images/mc_es.png" width="55%" alt="Matriz de confusión - Modelo CNN-BiLSTM" />
+  <img src="./images/matriz_confusion_profesional.png" width="55%" alt="Matriz de confusión - Modelo CNN-BiLSTM" />
   <p><i>Matriz de Confusión resultante del modelo en producción (CNN-LSTM).</i></p>
 </div>
 
@@ -234,7 +289,7 @@ Descargá a tu computadora cualquiera de estas muestras reales para enviarlas a 
 Para obtener resultados comparables con los del entrenamiento, las grabaciones deben cumplir las siguientes condiciones:
 * **Hardware:** Grabaciones realizadas exclusivamente mediante un estetoscopio electrónico.
 * **Frecuencia de muestreo:** Mínimo de 44.1 kHz.
-* **Duración:** No menor a 3 segundos (para capturar al menos un ciclo respiratorio completo) y no mayor a 10 segundos.
+* **Duración:** No menor a 3 segundos (para capturar al menos un ciclo respiratorio completo) y no mayor a 10 segundos (para mantener un procesamiento e inferencia eficientes).
 
 ---
 
@@ -270,29 +325,21 @@ Tras procesar el audio, la API ejecuta automáticamente el pipeline de procesami
 
 --- 
 
-## 🎓 Trabajo Final de Ingeniería
-
-Este proyecto tiene su origen en el **Trabajo Final de la carrera de Ingeniería en Informática** de la **Facultad de Ingeniería de la Universidad Nacional de Jujuy (FI-UNJu)**.
-
-La investigación fue desarrollada bajo la dirección y el respaldo del **Laboratorio de GeoTecnologías y Ciencias de las Imágenes (FI-UNJu)** y obtuvo la calificación máxima de **10/10**.
-
-El trabajo de tesis abordó el diseño, desarrollo y validación de modelos de Inteligencia Artificial para la clasificación automática de patologías pulmonares mediante sonidos respiratorios.
-
-Tras la aprobación de la tesis, el proyecto continuó evolucionando como una iniciativa personal, incorporando una arquitectura **End-to-End** orientada a producción, que incluye una API REST, contenedorización con Docker, interfaz web y herramientas para facilitar su despliegue y utilización en distintos entornos.
-
----
 ## 🎓 Trabajo Final de Ingeniería e Iniciativa MLOps
 
 Este proyecto tiene su origen en el **Trabajo Final de la carrera de Ingeniería en Informática** de la **Facultad de Ingeniería de la Universidad Nacional de Jujuy (FI-UNJu)**. La investigación científica y el desarrollo del núcleo de IA se realizaron bajo la dirección y el respaldo del **Laboratorio de GeoTecnologías y Ciencias de las Imágenes (FI-UNJu)**. El Trabajo Final fue defendido obteniendo la calificación máxima de **10/10**.
 
-El trabajo de tesis abordó el diseño, desarrollo y validación de modelos de Inteligencia Artificial para la clasificación automática de patologías pulmonares mediante sonidos respiratorios.
+El Trabajo Final abordó el diseño, entrenamiento y validación de modelos de Deep Learning para la clasificación automática de patologías pulmonares Asma, Neumonía, EPOC y condición Normal mediante sonidos respiratorios.
 
-Tras la aprobación académica, el proyecto continuó evolucionando como una iniciativa personal de ingeniería de software orientada a producción. En esta segunda etapa, se diseñó e implementó una arquitectura **End-to-End** madura que transformó los scripts de investigación en una plataforma escalable, incorporando:
-* 🚀 Exposición de modelos mediante una **API REST (FastAPI)** con documentación interactiva (Swagger UI).
-* 🐳 Aislamiento de entornos y portabilidad total mediante contenedorización con **Docker**.
-* 🔄 Automatización del flujo de datos y dependencias mediante orquestación con **Apache Airflow**.
-* ⚙️ Preprocesamiento de los datos mediante **Pyspark**.
-* ☁️ Infraestructura de despliegue continuo en la nube a través de **Render**.
+Tras la aprobación académica, el proyecto evolucionó como una iniciativa personal con el objetivo de transformar un prototipo de investigación en una plataforma End-to-End orientada a producción, incorporando prácticas de Ingeniería de Datos, Machine Learning y MLOps.
+
+Entre las principales mejoras implementadas se encuentran:
+
+* 🚀 Exposición del modelo mediante una **API REST** desarrollada con **FastAPI** y documentación automática con Swagger/OpenAPI.
+* 🔄 Automatización del pipeline de datos,entrenamiento y evaluación mediante **Apache Airflow**.
+* ⚡ Procesamiento distribuido de señales biomédicas utilizando **PySpark**.
+* 🐳 Contenerización completa de la plataforma mediante **Docker**, garantizando portabilidad y reproducibilidad.
+* ☁️ Despliegue continuo en la nube utilizando **Render**, permitiendo inferencias en tiempo real.
 
 ---
 ## 📝 Publicaciones y Contribuciones Académicas
@@ -311,17 +358,21 @@ La rigurosidad, metodologías y validaciones aplicadas en este proyecto fueron a
 * El número de grabaciones disponibles para algunas patologías es limitado. La incorporación de un mayor volumen y diversidad de registros clínicos permitiría mejorar la capacidad de generalización del modelo y potencialmente incrementar sus métricas de desempeño.
 
 ---
+
 ## 🔮 Líneas de Trabajo Futuro
 
 * **Validación Clínica Regional:** Evaluar los modelos entrenados utilizando registros clínicos y condiciones acústicas controladas de pacientes en entornos hospitalarios.
-* **Ampliación del Conjunto de Datos:** Incorporar nuevas grabaciones provenientes de diferentes instituciones de salud para aumentar la diversidad de pacientes, dispositivos y condiciones de captura.
-* **Optimización para Dispositivos Móviles:** Exportar el modelo entrenado a formatos ligeros como *TensorFlow Lite* (`.tflite`) o *ONNX* para habilitar la inferencia *offline* directamente en aplicaciones móviles (Android/iOS).
-* **Asistencia en Puntos de Atención (Point-of-Care):** Integración con hardware de estetoscopios digitales accesibles para telemedicina en zonas rurales de bajos recursos.
+
+* **Ampliación del Conjunto de Datos:** Incorporar nuevas grabaciones provenientes de diferentes instituciones de salud para incrementar la diversidad de pacientes, dispositivos de captura y condiciones clínicas. Un mayor volumen y variedad de datos permitirá mejorar la capacidad de generalización del modelo y potencialmente incrementar su desempeño.
+
+* **Optimización para Dispositivos Móviles:** Exportar el modelo a formatos ligeros como **TensorFlow Lite** (`.tflite`) u **ONNX** para habilitar la inferencia *offline* en dispositivos Android e iOS.
+
+* **Asistencia en Puntos de Atención (Point-of-Care):** Integrar la plataforma con estetoscopios digitales y soluciones de telemedicina para brindar apoyo al diagnóstico en centros de atención primaria y zonas con acceso limitado a especialistas.
 
 ---
 
+## 📄 Licencia
 
-
-
+Este proyecto está bajo la Licencia MIT; ya puedes ver el archivo [LICENSE](LICENSE) para más detalles.
 
 

@@ -3,7 +3,7 @@ FROM python:3.11-slim
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Dependencias del sistema necesarias para Matplotlib, Seaborn y compilación de extensiones de ML
+# System dependencies required for Matplotlib, Seaborn, and compiling ML extensions
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     g++ \
@@ -15,12 +15,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# Copiar requerimientos e instalar
+# Copy requirements and install
 COPY requirements/training_requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r training_requirements.txt
 
-# Copiar código del módulo de ML, datos estructurados y archivos de configuración
+# Copy ML module code, structured data, and configuration files
 COPY ml/ /app/ml/
 COPY config/ /app/config/
 

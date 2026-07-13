@@ -1,85 +1,21 @@
-# End-to-End Respiratory Audio AI Pipeline
 
-> 🌐 **Language / Idioma:** English | [Leer en Español (Spanish)](./README.es.md)
 
----
-
-## Arquitectura
-
-```text
-Audio Respiratorio (.wav)
-            │
-            ▼
-      ETL Pipeline
-            │
- ┌──────────┼──────────┐
- │          │          │
- ▼          ▼          ▼
-Ingesta   MFCC     Parquet
-            │
-            ▼
-   Dataset Procesado
-            │
-            ▼
-      CNN + BLSTM
-            │
-            ▼
- Modelo Entrenado (.keras)
-            │
-            ▼
-         FastAPI
-            │
-            ▼
-          Docker
-            │
-            ▼
-          Render# End-to-End Pipeline for Respiratory Disease Classification using Deep Learning
-
-## Descripción
-
-Proyecto de ingeniería de datos y Deep Learning para la clasificación automática de enfermedades respiratorias a partir de audios pulmonares.
-
-El sistema implementa un pipeline completo que abarca:
-
-- Ingesta de audios respiratorios.
-- Procesamiento distribuido mediante PySpark.
-- Extracción de características acústicas (MFCC).
-- Almacenamiento de datos procesados en formato Parquet.
-- Entrenamiento de una red neuronal CNN-BLSTM.
-- Exposición del modelo mediante una API REST desarrollada con FastAPI.
-- Contenerización con Docker.
-- Despliegue en la nube utilizando Render.
-- Orquestación del pipeline mediante Apache Airflow.
 
 ---
+## 📄 License
 
-## Arquitectura
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-```text
-Audio Respiratorio (.wav)
-            │
-            ▼
-      ETL Pipeline
-            │
- ┌──────────┼──────────┐
- │          │          │
- ▼          ▼          ▼
-Ingesta   MFCC     Parquet
-            │
-            ▼
-   Dataset Procesado
-            │
-            ▼
-      CNN + BLSTM
-            │
-            ▼
- Modelo Entrenado (.keras)
-            │
-            ▼
-         FastAPI
-            │
-            ▼
-          Docker
-            │
-            ▼
-          Render
+### 🏗️ Architecture Overview
+
+The project follows a modular layered architecture, separating responsibilities into orchestration, data engineering, machine learning, model serving, infrastructure and quality assurance.
+
+| Layer | Directory | Responsibility |
+|-------|-----------|----------------|
+| Workflow Orchestration | `airflow/` | DAGs that orchestrate ETL, model training and evaluation. |
+| Data Engineering | `etl/` | Data ingestion, preprocessing, segmentation and distributed MFCC extraction with PySpark. |
+| Machine Learning | `ml/` | Model training, evaluation, reports and artifacts. |
+| Model Serving | `api/` | REST API for real-time inference using FastAPI. |
+| Infrastructure | `docker/` | Dockerfiles and containerization of all services. |
+| Configuration | `config/` | Centralized configuration using YAML files. |
+| Quality Assurance | `tests/` | Automated testing with Pytest. |
