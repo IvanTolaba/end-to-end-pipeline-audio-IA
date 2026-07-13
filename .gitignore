@@ -53,9 +53,13 @@ data/**/*
 ml/artifacts/cache/
 ml/artifacts/history/
 
-*.h5
+#*.h5
+#*.keras
+#*.pkl
+
+# Ignoramos todos los .keras, EXCEPTO tu modelo de producción:
 *.keras
-*.pkl
+!ml/artifacts/models/*.keras
 
 # ==================================================
 # Training Outputs & Reports
