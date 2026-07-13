@@ -19,6 +19,8 @@ RUN pip install --no-cache-dir --upgrade pip && \
 COPY api/ /app/api/
 COPY config/ /app/config/
 
+# Production model
+COPY ml/artifacts/ /app/ml/artifacts/
 
 EXPOSE 8000
 
