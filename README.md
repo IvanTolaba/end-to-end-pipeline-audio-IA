@@ -1,7 +1,7 @@
 
 # # End-to-End Data Engineering, Machine Learning and MLOps Pipeline for Automatic Pulmonary Disease Diagnosis from Respiratory Sounds
 
-> 🌐 **Language / Idioma:** [Read in English (Inglés)](./README.md) | Español
+> 🌐 **Language / Idioma:** [Read in Spanish (Español)](./README.es.md) | English
 
 This project implements a comprehensive Data Engineering, Machine Learning, and MLOps solution for the automatic diagnosis of pulmonary diseases from respiratory sounds.
 
