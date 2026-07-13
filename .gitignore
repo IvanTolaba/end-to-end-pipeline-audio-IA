@@ -58,8 +58,8 @@ ml/artifacts/history/
 #*.pkl
 
 # Ignoramos todos los .keras, EXCEPTO tu modelo de producción:
-*.keras
-!ml/artifacts/models/*.keras
+#*.keras
+#!ml/artifacts/models/*.keras
 
 # ==================================================
 # Training Outputs & Reports
