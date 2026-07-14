@@ -153,19 +153,6 @@ Durante el desarrollo se implementaron prácticas de Ingeniería de Software y M
 
 ---
 
-### 🏗️ Architecture Overview
-
-| Layer | Directory | Responsibility |
-|-------|-----------|----------------|
-| Workflow Orchestration | `airflow/` | DAGs that orchestrate ETL, model training and evaluation. |
-| Data Engineering | `etl/` | Data ingestion, preprocessing, segmentation and distributed MFCC extraction with PySpark. |
-| Machine Learning | `ml/` | Model training, evaluation, reports and artifacts. |
-| Model Serving | `api/` | REST API for real-time inference using FastAPI. |
-| Infrastructure | `docker/` | Dockerfiles and containerization of all services. |
-| Configuration | `config/` | Centralized configuration using YAML files. |
-| Quality Assurance | `tests/` | Automated testing with Pytest. |
-
----
 ### 🏗️ Arquitectura del Proyecto
 
 El proyecto sigue una arquitectura modular por capas, separando las responsabilidades de orquestación, ingeniería de datos, entrenamiento de modelos, despliegue, infraestructura y aseguramiento de la calidad. Esta organización facilita la mantenibilidad, la escalabilidad y la reproducibilidad de la solución.
