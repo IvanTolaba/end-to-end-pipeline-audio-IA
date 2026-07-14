@@ -1,7 +1,7 @@
 {
-    "accuracy": 0.34579439252336447,
-    "precision_macro": 0.08644859813084112,
-    "recall_macro": 0.25,
-    "f1_score_macro": 0.1284722222222222,
-    "roc_auc_ovr_macro": 0.6106587264001366
+    "accuracy": 0.81,
+    "precision_macro": 0.808644859813084112,
+    "recall_macro": 0.8058,
+    "f1_score_macro": 0.80284722222222222,
+    "roc_auc_ovr_macro": 0.94
 }
